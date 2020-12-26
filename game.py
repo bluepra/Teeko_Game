@@ -3,7 +3,7 @@ pygame.init()
 
 #Constants
 SCREEN_WIDTH = 530
-SCREEN_HEIGHT = 590
+SCREEN_HEIGHT = 600
 
 #Colors
 WHITE = (255,255,255)
@@ -53,6 +53,7 @@ class Board:
 
 # Given a position coordinate, this function returns the cell coordinate
 def get_cell_coord(pos):
+	print(pos)
 	return (pos[0] // (Cell.CELL_LENGTH + Board.PADDING), pos[1] // (Cell.CELL_LENGTH + Board.PADDING))
 
 def change_cell_color(cell_coord, new_color):
@@ -69,16 +70,25 @@ while running:
 		if event.type == pygame.QUIT:
 			running = False
 		if event.type == pygame.MOUSEBUTTONDOWN:
+			#Left click
 			if pygame.mouse.get_pressed()[0]:
 				pos = pygame.mouse.get_pos()
 				cell_coord = get_cell_coord(pos)
 				change_cell_color(cell_coord, RED)
 				print('left click at: ' + str(cell_coord))
+			#Middle Click
+			if pygame.mouse.get_pressed()[1]:
+				pos = pygame.mouse.get_pos()
+				cell_coord = get_cell_coord(pos) 
+				change_cell_color(cell_coord, WHITE)
+				print('middle click at: ' + str(cell_coord))
+			#Right Click
 			if pygame.mouse.get_pressed()[2]:
 				pos = pygame.mouse.get_pos()
-				cell_coord = get_cell_coord(pos)
+				cell_coord = get_cell_coord(pos) 
 				change_cell_color(cell_coord, GREEN)
 				print('right click at: ' + str(cell_coord))
+			
 
 	board.draw()
 	pygame.display.update()
