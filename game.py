@@ -61,16 +61,11 @@ class Board:
 
 # Given a position coordinate, this function returns the cell coordinate
 def get_cell_coord(pos):
-<<<<<<< Updated upstream
-	print(pos)
-	return (pos[0] // (Cell.CELL_LENGTH + Board.PADDING), pos[1] // (Cell.CELL_LENGTH + Board.PADDING))
-=======
     return (
         pos[0] // (Cell.CELL_LENGTH + Board.PADDING),
         pos[1] // (Cell.CELL_LENGTH + Board.PADDING),
     )
 
->>>>>>> Stashed changes
 
 def change_cell_color(cell_coord, new_color):
     x = cell_coord[0]
@@ -82,44 +77,23 @@ board = Board()
 
 running = True
 while running:
-<<<<<<< Updated upstream
-	for event in pygame.event.get():
-		if event.type == pygame.QUIT:
-			running = False
-		if event.type == pygame.MOUSEBUTTONDOWN:
-			#Left click
-			if pygame.mouse.get_pressed()[0]:
-				pos = pygame.mouse.get_pos()
-				cell_coord = get_cell_coord(pos)
-				change_cell_color(cell_coord, RED)
-				print('left click at: ' + str(cell_coord))
-			#Middle Click
-			if pygame.mouse.get_pressed()[1]:
-				pos = pygame.mouse.get_pos()
-				cell_coord = get_cell_coord(pos) 
-				change_cell_color(cell_coord, WHITE)
-				print('middle click at: ' + str(cell_coord))
-			#Right Click
-			if pygame.mouse.get_pressed()[2]:
-				pos = pygame.mouse.get_pos()
-				cell_coord = get_cell_coord(pos) 
-				change_cell_color(cell_coord, GREEN)
-				print('right click at: ' + str(cell_coord))
-			
-
-	board.draw()
-	pygame.display.update()
-	
-=======
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
+            # Left click
             if pygame.mouse.get_pressed()[0]:
                 pos = pygame.mouse.get_pos()
                 cell_coord = get_cell_coord(pos)
                 change_cell_color(cell_coord, RED)
                 print("left click at: " + str(cell_coord))
+            # Middle Click
+            if pygame.mouse.get_pressed()[1]:
+                pos = pygame.mouse.get_pos()
+                cell_coord = get_cell_coord(pos)
+                change_cell_color(cell_coord, WHITE)
+                print("middle click at: " + str(cell_coord))
+            # Right Click
             if pygame.mouse.get_pressed()[2]:
                 pos = pygame.mouse.get_pos()
                 cell_coord = get_cell_coord(pos)
@@ -128,6 +102,5 @@ while running:
 
     board.draw()
     pygame.display.update()
->>>>>>> Stashed changes
 
 pygame.quit()
