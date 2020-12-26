@@ -3,7 +3,7 @@ pygame.init()
 
 #Constants
 SCREEN_WIDTH = 530
-SCREEN_HEIGHT = 600
+SCREEN_HEIGHT = 590
 
 #Colors
 WHITE = (255,255,255)
