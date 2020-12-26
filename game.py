@@ -8,6 +8,7 @@ SCREEN_HEIGHT = 600
 #Colors
 WHITE = (255,255,255)
 RED = (255, 0, 0)
+GREEN = (0, 255, 0)
 
 #Setup screen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -73,6 +74,11 @@ while running:
 				cell_coord = get_cell_coord(pos)
 				change_cell_color(cell_coord, RED)
 				print('left click at: ' + str(cell_coord))
+			if pygame.mouse.get_pressed()[2]:
+				pos = pygame.mouse.get_pos()
+				cell_coord = get_cell_coord(pos)
+				change_cell_color(cell_coord, GREEN)
+				print('right click at: ' + str(cell_coord))
 
 	board.draw()
 	pygame.display.update()
