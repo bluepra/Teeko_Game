@@ -1,4 +1,6 @@
 import pygame, sys
+from teeko2_player import Teeko2Player
+
 pygame.init()
 
 #Constants
@@ -11,23 +13,27 @@ WHITE = (255,255,255)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 
-#Setup screen
+#Setup screen, clock and fonts
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 game_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
 menu_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Teeko")
 clock = pygame.time.Clock()
 pygame.font.init()
-myfont = pygame.font.SysFont('Comic Sans MS', 30)
+myfont = pygame.font.Font('techno_hideo.ttf', 30)
 teeko_font = pygame.font.Font('techno_hideo.ttf', 90)
 
 class Cell:
 	CELL_LENGTH = 100
-	def __init__(self, x, y, color):
+	def __init__(self, x, y, color, cell_coord):
 		#print('creating cell')
 		self.x = x
 		self.y = y
 		self.color = color
+		self.cell_coord = cell_coord
+
+	def __str__(self):
+		return str(self.cell_coord)
 
 	def change_color(self, new_color):
 		self.color = new_color
@@ -45,10 +51,9 @@ class Board:
 			for j in range(5):
 				x = Board.PADDING + (Cell.CELL_LENGTH + Board.PADDING) * i
 				y = Board.PADDING + (Cell.CELL_LENGTH + Board.PADDING) * j
-				new_cell = Cell(x,y, WHITE)
+				new_cell = Cell(x,y, WHITE, (i, j))
 				row_of_cells.append(new_cell)
 			self.cells.append(row_of_cells)
-
 
 	# Draws the 5x5 game board onto the screen
 	def draw(self, surface):
@@ -67,9 +72,9 @@ class Button:
 		self.color = color
 
 	def draw(self, surface):
-		pygame.draw.rect(surface, self.color,(self.x, self.y, self.width, self.height))
-		word = myfont.render(self.text, True, (0,0,0))
-		surface.blit(word, (self.x, self.y))
+		pygame.draw.rect(surface, BLACK,(self.x, self.y, self.width, self.height))
+		word = myfont.render(self.text, True, (255,0,0))
+		surface.blit(word, (self.x, self.y + 10))
 
 	def clicked(self):
 		if(self.text == 'START'):
@@ -81,7 +86,6 @@ class Button:
 
 # Given a position coordinate, this function returns the cell coordinate
 def get_cell_coord(pos):
-	#print(pos)
 	return (pos[0] // (Cell.CELL_LENGTH + Board.PADDING), pos[1] // (Cell.CELL_LENGTH + Board.PADDING))
 
 #Change a specific cell's color
