@@ -1,6 +1,6 @@
 #Prannav Arora
-#CS 540 - HW 6
-#To submit
+#Ryan Almizyed
+#Teeko Game
 
 import random
 import copy
