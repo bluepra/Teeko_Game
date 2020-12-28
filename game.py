@@ -32,10 +32,12 @@ class Cell:
 		self.color = color
 		self.cell_coord = cell_coord
 
+
 	def __str__(self):
 		return str(self.cell_coord)
 
 	def change_color(self, new_color):
+		print(self.cell_coord)
 		self.color = new_color
 
 	def draw(self, surface):
@@ -46,20 +48,20 @@ class Board:
 	cells = []
 	def __init__(self):
 		#print('creating board')
-		for i in range(5):
+		for row in range(5):
 			row_of_cells = []
-			for j in range(5):
-				x = Board.PADDING + (Cell.CELL_LENGTH + Board.PADDING) * i
-				y = Board.PADDING + (Cell.CELL_LENGTH + Board.PADDING) * j
-				new_cell = Cell(x,y, WHITE, (i, j))
+			for col in range(5):
+				x = Board.PADDING + (Cell.CELL_LENGTH + Board.PADDING) * col
+				y = Board.PADDING + (Cell.CELL_LENGTH + Board.PADDING) * row
+				new_cell = Cell(x, y, WHITE, (row, col))
 				row_of_cells.append(new_cell)
 			self.cells.append(row_of_cells)
 
 	# Draws the 5x5 game board onto the screen
 	def draw(self, surface):
-		for i in range(5):
-			for j in range(5):
-				curr_cell = self.cells[i][j]
+		for row in range(5):
+			for col in range(5):
+				curr_cell = self.cells[row][col]
 				curr_cell.draw(surface)
 
 class Button:
@@ -86,7 +88,7 @@ class Button:
 
 # Given a position coordinate, this function returns the cell coordinate
 def get_cell_coord(pos):
-	return (pos[0] // (Cell.CELL_LENGTH + Board.PADDING), pos[1] // (Cell.CELL_LENGTH + Board.PADDING))
+	return (pos[1] // (Cell.CELL_LENGTH + Board.PADDING), pos[0] // (Cell.CELL_LENGTH + Board.PADDING))
 
 #Change a specific cell's color
 def change_cell_color(cell_coord, new_color):
@@ -118,7 +120,7 @@ def run_game():
 					pos = pygame.mouse.get_pos()
 					cell_coord = get_cell_coord(pos)
 					change_cell_color(cell_coord, RED)
-					print('left click at: ' + str(cell_coord))
+					#print('left click at: ' + str(cell_coord))
 		board.draw(game_surface)
 		screen.blit(game_surface, (0,0))
 		pygame.display.update()
