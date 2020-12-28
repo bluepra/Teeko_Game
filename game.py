@@ -74,7 +74,8 @@ class Button:
 	def clicked(self):
 		if(self.text == 'START'):
 			run_game()
-		print(self.text + " was clicked")
+		if(self.text == 'EXIT'):
+			sys.exit()
 
 
 
@@ -93,7 +94,6 @@ def check_buttons(buttons, click_pos):
 	for button in buttons:
 		if(click_pos[0] >= button.x and click_pos[0] <= (button.x + button.width)):
 			if(click_pos[1] >= button.y and click_pos[1] <= (button.y + button.height)):
-				button.activated = True
 				return button
 			else:
 				continue
@@ -103,7 +103,6 @@ board = Board()
 #Run Game
 def run_game():
 	running = True
-	
 	while running:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
@@ -116,12 +115,6 @@ def run_game():
 					cell_coord = get_cell_coord(pos)
 					change_cell_color(cell_coord, RED)
 					print('left click at: ' + str(cell_coord))
-				#Right Click
-				if pygame.mouse.get_pressed()[2]:
-					pos = pygame.mouse.get_pos()
-					cell_coord = get_cell_coord(pos) 
-					change_cell_color(cell_coord, GREEN)
-					print('right click at: ' + str(cell_coord))
 		board.draw(game_surface)
 		screen.blit(game_surface, (0,0))
 		pygame.display.update()
