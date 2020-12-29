@@ -24,14 +24,20 @@ tutorial_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
 tutorial_surface.fill(BLUE)
 pygame.display.set_caption("Teeko")
 clock = pygame.time.Clock()
+
+# Fonts 
 pygame.font.init()
 myfont = pygame.font.Font('CubicCoreMono.ttf', 50)
 teeko_font = pygame.font.Font('CubicCoreMono.ttf', 150)
 text_bar_font = pygame.font.SysFont('segoeuiblack', 25)
+
+# Images
 red = pygame.image.load('red_piece.png')
 black = pygame.image.load('black_piece.png')
 hexagon = pygame.image.load('hexagon.png')
 pygame.display.set_icon(hexagon)
+
+# Sounds
 piece_down = mixer.Sound('piece_down.mp3')
 music = mixer.music.load('music.mp3')
 mixer.music.play(-1)
@@ -201,7 +207,7 @@ def run_tutorial():
 
 # Opening menu
 def run_menu():
-    start = Button('START', 200, 250, 100, 200)
+    start = Button('START', 200, 250, 100, 40)
     tutorial = Button('TUTORIAL', 200, 300, 100, 40)
     exit = Button('EXIT', 200, 350, 100, 40)
     buttons = [start, tutorial, exit]
