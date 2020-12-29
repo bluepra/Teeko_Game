@@ -1,4 +1,5 @@
 import pygame
+from pygame import mixer
 import sys
 from teeko2_player import Teeko2Player
 
@@ -31,6 +32,7 @@ red = pygame.image.load('red_piece.png')
 black = pygame.image.load('black_piece.png')
 hexagon = pygame.image.load('hexagon.png')
 pygame.display.set_icon(hexagon)
+piece_down = mixer.Sound('piece_down.mp3')
 
 
 class Cell:
@@ -48,6 +50,7 @@ class Cell:
 
     def put_piece(self):
         text_bar.update_text(str(self.cell_coord))
+        piece_down.play()
         self.has_piece = True
 
     def draw(self, surface):
