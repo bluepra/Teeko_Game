@@ -92,9 +92,9 @@ def get_cell_coord(pos):
 
 #Change a specific cell's color
 def change_cell_color(cell_coord, new_color):
-		x = cell_coord[0]
-		y = cell_coord[1]
-		board.cells[x][y].change_color(new_color)
+		y = cell_coord[0]
+		x = cell_coord[1]
+		board.cells[y][x].change_color(new_color)
 
 def check_buttons(buttons, click_pos):
 	for button in buttons:
