@@ -128,7 +128,7 @@ class TextBar:
 
 board = Board()
 text_bar = TextBar('click on a square', Board.PADDING,
-                   SCREEN_WIDTH, SCREEN_WIDTH / 2, 45, BLACK)
+                   SCREEN_WIDTH - Board.PADDING, SCREEN_WIDTH / 2, 45, BLACK)
 
 
 def get_cell_coord(pos):
