@@ -2,6 +2,9 @@
 # Prannav Arora
 # Teeko Game
 
+import pygame
+
+
 def eventHandlers(event):
     if event.type is pygame.QUIT:
         quitHandler()
@@ -15,6 +18,3 @@ def quitHandler(event):
 
 def clickHandler(event):
     pos = pygame.mouse.get_pos()
-    clickedButton = check_buttons(buttons, pos)
-    if clickedButton is not None:
-        clickedButton.clicked()
