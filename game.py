@@ -24,30 +24,32 @@ pygame.font.init()
 myfont = pygame.font.Font('techno_hideo.ttf', 30)
 teeko_font = pygame.font.Font('techno_hideo.ttf', 90)
 text_bar_font = pygame.font.SysFont('segoeuiblack', 25)
+red = pygame.image.load('red_piece.png')
+black = pygame.image.load('black_piece.png')
 
 
 class Cell:
     CELL_LENGTH = 100
 
-    def __init__(self, x, y, color, cell_coord):
+    def __init__(self, x, y, cell_coord):
         #print('creating cell')
         self.x = x
         self.y = y
-        self.color = color
+        self.has_piece = False
         self.cell_coord = cell_coord
 
     def __str__(self):
         return str(self.cell_coord)
 
-    def change_color(self, new_color):
+    def put_piece(self):
         text_bar.update_text(str(self.cell_coord))
-        self.color = new_color
+        self.has_piece = True
 
     def draw(self, surface):
         pygame.draw.rect(surface, WHITE, (self.x, self.y,
                                           Cell.CELL_LENGTH, Cell.CELL_LENGTH))
-        pygame.draw.circle(surface, self.color, (self.x + (Cell.CELL_LENGTH / 2), self.y + (Cell.CELL_LENGTH / 2)),
-                           (Cell.CELL_LENGTH / 2) - 10)
+        if self.has_piece:
+            surface.blit(red, (self.x + 15, self.y + 15))
 
 
 # Board class
@@ -62,7 +64,7 @@ class Board:
             for col in range(5):
                 x = Board.PADDING + (Cell.CELL_LENGTH + Board.PADDING) * col
                 y = Board.PADDING + (Cell.CELL_LENGTH + Board.PADDING) * row
-                new_cell = Cell(x, y, WHITE, (row, col))
+                new_cell = Cell(x, y, (row, col))
                 row_of_cells.append(new_cell)
             self.cells.append(row_of_cells)
 
@@ -135,7 +137,7 @@ def get_cell_coord(pos):
 def change_cell_color(cell_coord, new_color):
     y = cell_coord[0]
     x = cell_coord[1]
-    board.cells[y][x].change_color(new_color)
+    board.cells[y][x].put_piece()
 
 
 def check_buttons(buttons, click_pos):
