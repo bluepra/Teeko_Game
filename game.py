@@ -45,9 +45,9 @@ class Cell:
 
     def draw(self, surface):
         pygame.draw.rect(surface, WHITE, (self.x, self.y,
-                                               Cell.CELL_LENGTH, Cell.CELL_LENGTH))
-        pygame.draw.circle(surface, self.color, (self.x + (Cell.CELL_LENGTH / 2),self.y + (Cell.CELL_LENGTH / 2)),
-            (Cell.CELL_LENGTH / 2) - 10)
+                                          Cell.CELL_LENGTH, Cell.CELL_LENGTH))
+        pygame.draw.circle(surface, self.color, (self.x + (Cell.CELL_LENGTH / 2), self.y + (Cell.CELL_LENGTH / 2)),
+                           (Cell.CELL_LENGTH / 2) - 10)
 
 
 # Board class
@@ -74,6 +74,8 @@ class Board:
                 curr_cell.draw(surface)
 
 # Button class
+
+
 class Button:
     def __init__(self, text, x, y, width, height, color):
         self.text = text
@@ -96,6 +98,8 @@ class Button:
             sys.exit()
 
 # TextBar used in game
+
+
 class TextBar:
     def __init__(self, text, x, y, width, height, color):
         self.text = text
@@ -114,14 +118,20 @@ class TextBar:
     def update_text(self, new_text):
         self.text = new_text
 
+
 board = Board()
-text_bar = TextBar('click on a square', Board.PADDING, SCREEN_WIDTH, SCREEN_WIDTH / 2, 45, BLACK)
+text_bar = TextBar('click on a square', Board.PADDING,
+                   SCREEN_WIDTH, SCREEN_WIDTH / 2, 45, BLACK)
 
 # Given a position coordinate, this function returns the cell coordinate
+
+
 def get_cell_coord(pos):
     return (pos[1] // (Cell.CELL_LENGTH + Board.PADDING), pos[0] // (Cell.CELL_LENGTH + Board.PADDING))
 
 # Change a specific cell's color
+
+
 def change_cell_color(cell_coord, new_color):
     y = cell_coord[0]
     x = cell_coord[1]
@@ -140,7 +150,7 @@ def check_buttons(buttons, click_pos):
 # Run Game
 def run_game():
     running = True
-    
+
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -189,6 +199,7 @@ def run_menu():
         screen.blit(menu_surface, (0, 0))
         pygame.display.update()
         clock.tick(60)
+
 
 run_menu()
 pygame.quit()
