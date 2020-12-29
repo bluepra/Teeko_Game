@@ -25,8 +25,6 @@ myfont = pygame.font.Font('techno_hideo.ttf', 30)
 teeko_font = pygame.font.Font('techno_hideo.ttf', 90)
 text_bar_font = pygame.font.SysFont('segoeuiblack', 25)
 
-board = Board()
-text_bar = TextBar('click on a square', Board.PADDING, SCREEN_WIDTH, SCREEN_WIDTH / 2, 45, BLACK)
 
 class Cell:
     CELL_LENGTH = 100
@@ -115,6 +113,9 @@ class TextBar:
 
     def update_text(self, new_text):
         self.text = new_text
+
+board = Board()
+text_bar = TextBar('click on a square', Board.PADDING, SCREEN_WIDTH, SCREEN_WIDTH / 2, 45, BLACK)
 
 # Given a position coordinate, this function returns the cell coordinate
 def get_cell_coord(pos):
