@@ -29,6 +29,8 @@ teeko_font = pygame.font.Font('CubicCoreMono.ttf', 150)
 text_bar_font = pygame.font.SysFont('segoeuiblack', 25)
 red = pygame.image.load('red_piece.png')
 black = pygame.image.load('black_piece.png')
+hexagon = pygame.image.load('hexagon.png')
+pygame.display.set_icon(hexagon)
 
 
 class Cell:
@@ -90,7 +92,7 @@ class Button:
 
     def draw(self, surface):
         pygame.draw.rect(
-            surface, BLACK, (self.x, self.y, self.width, self.height))
+            surface, WHITE, (self.x, self.y, self.width, self.height))
         word = myfont.render(self.text, True, (255, 0, 0))
         surface.blit(word, (self.x, self.y + 10))
 
@@ -195,8 +197,8 @@ def run_tutorial():
 # Opening menu
 def run_menu():
     start = Button('START', 200, 250, 100, 200)
-    tutorial = Button('TUTORIAL', 200, 350, 100, 40)
-    exit = Button('EXIT', 200, 450, 100, 40)
+    tutorial = Button('TUTORIAL', 200, 300, 100, 40)
+    exit = Button('EXIT', 200, 350, 100, 40)
     buttons = [start, tutorial, exit]
 
     running = True
@@ -212,13 +214,17 @@ def run_menu():
                     clicked_button = check_buttons(buttons, pos)
                     if clicked_button != None:
                         clicked_button.clicked()
+        
+        menu_surface.blit(hexagon,(12,12))
 
         start.draw(menu_surface)
         tutorial.draw(menu_surface)
         exit.draw(menu_surface)
 
-        teeko_text = teeko_font.render('TEEKO', True, (255, 255, 255))
-        menu_surface.blit(teeko_text, (100, 100))
+        teeko_text = teeko_font.render('TEEKO', True, RED)
+
+        menu_surface.blit(teeko_text, (120, 120))
+
         screen.blit(menu_surface, (0, 0))
         pygame.display.update()
         clock.tick(60)
