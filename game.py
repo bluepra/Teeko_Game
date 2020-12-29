@@ -137,7 +137,8 @@ text_bar = TextBar('click on a square', Board.PADDING,
 
 def get_cell_coord(pos):
 	# Given a position coordinate, this function returns the cell coordinate
-    return (pos[1] // (Cell.CELL_LENGTH + Board.PADDING), pos[0] // (Cell.CELL_LENGTH + Board.PADDING))
+    return (pos[1] // (Cell.CELL_LENGTH + Board.PADDING), 
+    		pos[0] // (Cell.CELL_LENGTH + Board.PADDING))
 
 
 
