@@ -44,8 +44,11 @@ class Cell:
         self.color = new_color
 
     def draw(self, surface):
-        pygame.draw.rect(surface, self.color, (self.x, self.y,
+        pygame.draw.rect(surface, WHITE, (self.x, self.y,
                                                Cell.CELL_LENGTH, Cell.CELL_LENGTH))
+        pygame.draw.circle(surface, self.color, (self.x + (Cell.CELL_LENGTH / 2),self.y + (Cell.CELL_LENGTH / 2)),
+            (Cell.CELL_LENGTH / 2) - 10)
+
 
 # Board class
 class Board:
@@ -133,7 +136,7 @@ def check_buttons(buttons, click_pos):
 
 
 board = Board()
-text_bar = TextBar('some text', Board.PADDING, SCREEN_WIDTH, SCREEN_WIDTH / 2, 45, BLACK)
+text_bar = TextBar('click on a square', Board.PADDING, SCREEN_WIDTH, SCREEN_WIDTH / 2, 45, BLACK)
 
 # Run Game
 def run_game():
