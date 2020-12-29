@@ -57,9 +57,13 @@ class Cell:
         return str(self.cell_coord)
 
     def put_piece(self):
-        text_bar.update_text(str(self.cell_coord))
-        piece_down.play()
-        self.has_piece = True
+   		if self.has_piece:
+   			piece_down.play()
+   			self.has_piece = False
+   		else:
+   			text_bar.update_text(str(self.cell_coord))
+   			piece_down.play()
+   			self.has_piece = True
 
     def draw(self, surface):
         pygame.draw.rect(surface, WHITE, (self.x, self.y,
