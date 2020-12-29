@@ -67,8 +67,6 @@ class Cell:
         if self.has_piece:
             surface.blit(red, (self.x + 15, self.y + 15))
 
-
-
 class Board:
     PADDING = 5
     cells = []
@@ -91,8 +89,6 @@ class Board:
                 curr_cell = self.cells[row][col]
                 curr_cell.draw(surface)
 
-
-
 class Button:
     def __init__(self, text, x, y, width, height):
         self.text = text
@@ -114,9 +110,6 @@ class Button:
             run_tutorial()
         if(self.text == 'EXIT'):
             sys.exit()
-
-
-
 
 class TextBar:
     def __init__(self, text, x, y, width, height, color):
