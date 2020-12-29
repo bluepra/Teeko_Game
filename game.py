@@ -23,6 +23,7 @@ clock = pygame.time.Clock()
 pygame.font.init()
 myfont = pygame.font.Font('techno_hideo.ttf', 30)
 teeko_font = pygame.font.Font('techno_hideo.ttf', 90)
+text_bar_font = pygame.font.SysFont('arial', 30)
 
 
 class Cell:
@@ -39,14 +40,14 @@ class Cell:
         return str(self.cell_coord)
 
     def change_color(self, new_color):
-        print(self.cell_coord)
+        text_bar.update_text(str(self.cell_coord))
         self.color = new_color
 
     def draw(self, surface):
         pygame.draw.rect(surface, self.color, (self.x, self.y,
                                                Cell.CELL_LENGTH, Cell.CELL_LENGTH))
 
-
+# Board class
 class Board:
     PADDING = 5
     cells = []
@@ -69,7 +70,7 @@ class Board:
                 curr_cell = self.cells[row][col]
                 curr_cell.draw(surface)
 
-
+# Button class
 class Button:
     def __init__(self, text, x, y, width, height, color):
         self.text = text
@@ -91,14 +92,31 @@ class Button:
         if(self.text == 'EXIT'):
             sys.exit()
 
+# TextBar used in game
+class TextBar:
+    def __init__(self, text, x, y, width, height, color):
+        self.text = text
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.color = color
+
+    def draw(self, surface):
+        pygame.draw.rect(
+            surface, self.color, (self.x, self.y, self.width, self.height))
+        word = text_bar_font.render(self.text, True, WHITE)
+        surface.blit(word, (self.x, self.y + 10))
+
+    def update_text(self, new_text):
+        self.text = new_text
+
 
 # Given a position coordinate, this function returns the cell coordinate
 def get_cell_coord(pos):
     return (pos[1] // (Cell.CELL_LENGTH + Board.PADDING), pos[0] // (Cell.CELL_LENGTH + Board.PADDING))
 
 # Change a specific cell's color
-
-
 def change_cell_color(cell_coord, new_color):
     y = cell_coord[0]
     x = cell_coord[1]
@@ -115,12 +133,12 @@ def check_buttons(buttons, click_pos):
 
 
 board = Board()
+text_bar = TextBar('some text', Board.PADDING, SCREEN_WIDTH, SCREEN_WIDTH / 2, 45, BLACK)
 
 # Run Game
-
-
 def run_game():
     running = True
+    
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -134,6 +152,7 @@ def run_game():
                     change_cell_color(cell_coord, RED)
                     #print('left click at: ' + str(cell_coord))
         board.draw(game_surface)
+        text_bar.draw(game_surface)
         screen.blit(game_surface, (0, 0))
         pygame.display.update()
         clock.tick(60)
