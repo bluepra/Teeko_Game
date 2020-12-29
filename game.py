@@ -33,6 +33,8 @@ black = pygame.image.load('black_piece.png')
 hexagon = pygame.image.load('hexagon.png')
 pygame.display.set_icon(hexagon)
 piece_down = mixer.Sound('piece_down.mp3')
+music = mixer.music.load('music.mp3')
+mixer.music.play(-1)
 
 
 class Cell:
