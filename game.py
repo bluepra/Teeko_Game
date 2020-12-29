@@ -23,7 +23,7 @@ clock = pygame.time.Clock()
 pygame.font.init()
 myfont = pygame.font.Font('techno_hideo.ttf', 30)
 teeko_font = pygame.font.Font('techno_hideo.ttf', 90)
-text_bar_font = pygame.font.SysFont('arial', 30)
+text_bar_font = pygame.font.SysFont('segoeuiblack', 25)
 
 
 class Cell:
@@ -187,7 +187,6 @@ def run_menu():
         screen.blit(menu_surface, (0, 0))
         pygame.display.update()
         clock.tick(60)
-
 
 run_menu()
 pygame.quit()
