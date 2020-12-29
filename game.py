@@ -18,6 +18,8 @@ GREEN = (0, 255, 0)
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 game_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
 menu_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
+tutorial_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
+tutorial_surface.fill((0, 0, 255))
 pygame.display.set_caption("Teeko")
 clock = pygame.time.Clock()
 pygame.font.init()
@@ -79,13 +81,12 @@ class Board:
 
 
 class Button:
-    def __init__(self, text, x, y, width, height, color):
+    def __init__(self, text, x, y, width, height):
         self.text = text
         self.x = x
         self.y = y
         self.width = width
         self.height = height
-        self.color = color
 
     def draw(self, surface):
         pygame.draw.rect(
@@ -96,6 +97,8 @@ class Button:
     def clicked(self):
         if(self.text == 'START'):
             run_game()
+        if(self.text == 'TUTORIAL'):
+            run_tutorial()
         if(self.text == 'EXIT'):
             sys.exit()
 
@@ -172,12 +175,29 @@ def run_game():
         clock.tick(60)
 
 # Opening menu
+def run_tutorial():
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if pygame.mouse.get_pressed()[0]:
+                    pos = pygame.mouse.get_pos()
+                    clicked_button = check_buttons(buttons, pos)
+                    if clicked_button != None:
+                        clicked_button.clicked()
 
+        screen.blit(tutorial_surface, (0,0))              
+        pygame.display.update()
+        clock.tick(60)
 
+# Opening menu
 def run_menu():
-    start = Button('START', 200, 200, 100, 40, WHITE)
-    exit = Button('EXIT', 200, 300, 100, 40, WHITE)
-    buttons = [start, exit]
+    start = Button('START', 200, 200, 100, 40)
+    exit = Button('EXIT', 200, 400, 100, 40)
+    tutorial = Button('TUTORIAL', 200, 300, 100, 40)
+    buttons = [start, tutorial, exit]
 
     running = True
     while running:
@@ -194,6 +214,7 @@ def run_menu():
                         clicked_button.clicked()
 
         start.draw(menu_surface)
+        tutorial.draw(menu_surface)
         exit.draw(menu_surface)
 
         teeko_text = teeko_font.render('TEEKO', True, (255, 255, 255))
