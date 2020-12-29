@@ -55,7 +55,7 @@ class Cell:
             surface.blit(red, (self.x + 15, self.y + 15))
 
 
-# Board class
+
 class Board:
     PADDING = 5
     cells = []
@@ -78,7 +78,6 @@ class Board:
                 curr_cell = self.cells[row][col]
                 curr_cell.draw(surface)
 
-# Button class
 
 
 class Button:
@@ -103,7 +102,7 @@ class Button:
         if(self.text == 'EXIT'):
             sys.exit()
 
-# TextBar used in game
+
 
 
 class TextBar:
@@ -129,16 +128,16 @@ board = Board()
 text_bar = TextBar('click on a square', Board.PADDING,
                    SCREEN_WIDTH, SCREEN_WIDTH / 2, 45, BLACK)
 
-# Given a position coordinate, this function returns the cell coordinate
-
 
 def get_cell_coord(pos):
+	# Given a position coordinate, this function returns the cell coordinate
     return (pos[1] // (Cell.CELL_LENGTH + Board.PADDING), pos[0] // (Cell.CELL_LENGTH + Board.PADDING))
 
-# Change a specific cell's color
+
 
 
 def change_cell_color(cell_coord, new_color):
+	# Change a specific cell's color
     y = cell_coord[0]
     x = cell_coord[1]
     board.cells[y][x].put_piece()
