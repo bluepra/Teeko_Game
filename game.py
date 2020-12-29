@@ -162,7 +162,7 @@ def run_game():
                     pos = pygame.mouse.get_pos()
                     cell_coord = get_cell_coord(pos)
                     change_cell_color(cell_coord, RED)
-                    #print('left click at: ' + str(cell_coord))
+                    # print('left click at: ' + str(cell_coord))
         board.draw(game_surface)
         text_bar.draw(game_surface)
         screen.blit(game_surface, (0, 0))
