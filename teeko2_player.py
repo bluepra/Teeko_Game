@@ -5,7 +5,6 @@
 import random
 import copy
 import numpy as np
-import time
 
 
 class Teeko2Player:
