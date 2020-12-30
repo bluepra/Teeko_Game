@@ -173,7 +173,6 @@ def check_buttons(buttons, click_pos):
             else:
                 continue
 
-
 # Run Game
 def run_game():
     running = True
