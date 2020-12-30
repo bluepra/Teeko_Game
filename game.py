@@ -27,7 +27,8 @@ clock = pygame.time.Clock()
 
 # Fonts 
 pygame.font.init()
-myfont = pygame.font.Font('CubicCoreMono.ttf', 50)
+myfont = pygame.font.Font('CubicCoreMono.ttf', 40)
+hover_font = pygame.font.Font('CubicCoreMono.ttf', 50)
 teeko_font = pygame.font.Font('CubicCoreMono.ttf', 150)
 text_bar_font = pygame.font.SysFont('segoeuiblack', 25)
 
@@ -100,12 +101,23 @@ class Button:
         self.y = y
         self.width = width
         self.height = height
+        self.font = myfont
 
     def draw(self, surface):
         pygame.draw.rect(
             surface, WHITE, (self.x, self.y, self.width, self.height))
-        word = myfont.render(self.text, True, (255, 0, 0))
+        word = self.font.render(self.text, True, (255, 0, 0))
         surface.blit(word, (self.x, self.y + 10))
+
+    def update(self, mouse_pos):
+    	if mouse_pos[0] >= self.x and mouse_pos[0] <= (self.x + self.width):
+    		if mouse_pos[1] >= self.y and mouse_pos[1] <= (self.y + self.height):
+    			self.font = hover_font
+    		else:
+    			self.font = myfont
+    	else:
+    		self.font = myfont
+
 
     def clicked(self):
         if(self.text == 'START'):
@@ -143,7 +155,6 @@ def get_cell_coord(pos):
 	# Given a position coordinate, this function returns the cell coordinate
     return (pos[1] // (Cell.CELL_LENGTH + Board.PADDING), 
     		pos[0] // (Cell.CELL_LENGTH + Board.PADDING))
-
 
 
 
@@ -225,6 +236,10 @@ def run_menu():
                         clicked_button.clicked()
         
         menu_surface.blit(hexagon,(12,12))
+
+        mouse_pos = pygame.mouse.get_pos()
+        for button in buttons:
+        	button.update(mouse_pos)
 
         start.draw(menu_surface)
         tutorial.draw(menu_surface)
