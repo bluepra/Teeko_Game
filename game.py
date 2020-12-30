@@ -203,12 +203,12 @@ def run_tutorial():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if pygame.mouse.get_pressed()[0]:
-                    pos = pygame.mouse.get_pos()
-                    clicked_button = check_buttons(buttons, pos)
-                    if clicked_button != None:
-                        clicked_button.clicked()
+            # if event.type == pygame.MOUSEBUTTONDOWN:
+            #     if pygame.mouse.get_pressed()[0]:
+            #         pos = pygame.mouse.get_pos()
+            #         clicked_button = check_buttons(buttons, pos)
+            #         if clicked_button != None:
+            #             clicked_button.clicked()
 
         screen.blit(tutorial_surface, (0,0))              
         pygame.display.update()
@@ -223,8 +223,6 @@ def run_menu():
 
     running = True
     while running:
-        # print(start.activated)
-        # print(exit.activated)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -240,13 +238,9 @@ def run_menu():
         mouse_pos = pygame.mouse.get_pos()
         for button in buttons:
         	button.update(mouse_pos)
-
-        start.draw(menu_surface)
-        tutorial.draw(menu_surface)
-        exit.draw(menu_surface)
+        	button.draw(menu_surface)
 
         teeko_text = teeko_font.render('TEEKO', True, RED)
-
         menu_surface.blit(teeko_text, (120, 120))
 
         screen.blit(menu_surface, (0, 0))
