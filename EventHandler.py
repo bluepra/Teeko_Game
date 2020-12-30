@@ -4,14 +4,15 @@
 
 import pygame
 
+#Main event handler loop
+def handleEvents():
+    for event in pygame.event.get():
+        if event.type is pygame.QUIT:
+            quitHandler()
+        elif event.type is pygame.MOUSEBUTTONDOWN:
+            clickHandler()
 
-def eventHandlers(event):
-    if event.type is pygame.QUIT:
-        quitHandler()
-    elif event.type is pygame.MOUSEBUTTONDOWN:
-        clickHandler()
-
-
+#Individual event handlers
 def quitHandler(event):
     pygame.quit()
 

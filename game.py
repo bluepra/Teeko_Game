@@ -247,13 +247,15 @@ def run_menu():
         clock.tick(60)
 
 
-def eventHandlers(event):
-    if event.type is pygame.QUIT:
-        quitHandler()
-    elif event.type is pygame.MOUSEBUTTONDOWN:
-        clickHandler()
+#Main event handler loop
+def handleEvents():
+    for event in pygame.event.get():
+        if event.type is pygame.QUIT:
+            quitHandler()
+        elif event.type is pygame.MOUSEBUTTONDOWN:
+            clickHandler()
 
-
+#Individual event handlers
 def quitHandler(event):
     pygame.quit()
 
