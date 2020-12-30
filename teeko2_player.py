@@ -33,7 +33,7 @@ class Teeko2Player:
     # Selects a (row, col) space for the next move. You may assume that whenever
     # this function is called, it is this player's turn to move.
     def make_move(self, state):
-        #start = time.time()
+        # start = time.time()
 
         # Detect drop phase
         curr_state = copy.deepcopy(state)
@@ -48,8 +48,8 @@ class Teeko2Player:
 
         if(count_of_AI_pieces == 0):
             move = self.AI_first_move(curr_state)
-            #end = time.time()
-            #print("make_move took " + str(end - start) + " seconds")
+            # end = time.time()
+            # print("make_move took " + str(end - start) + " seconds")
             return move
 
         succ_states = self.succ(curr_state, self.my_piece)
@@ -62,12 +62,12 @@ class Teeko2Player:
             if(self.game_value(succ) == 1):
                 highest_state = succ
                 break
-            #temp = self.Min_Value(succ, 0)
+            # temp = self.Min_Value(succ, 0)
             temp = self.Min_Value(succ, 0, -5, 5)  # Added alpha beta pruning
             if(temp > max_val):
                 max_val = temp
                 highest_state = succ
-        #print(self.heuristic_game_value(highest_state, self.my_piece))
+        # print(self.heuristic_game_value(highest_state, self.my_piece))
         # self.print_state(highest_state)
 
         # highest_state is going to be the best succ for AI to take
@@ -82,15 +82,15 @@ class Teeko2Player:
             for i in range(5):
                 for j in range(5):
                     if curr_state[i][j] == ' ' and highest_state[i][j] == self.my_piece:
-                        #print("Line 50: " + str(i) + str(j))
+                        # print("Line 50: " + str(i) + str(j))
                         (row, col) = (i, j)
                         move.insert(0, (row, col))
                     if curr_state[i][j] == self.my_piece and highest_state[i][j] == ' ':
-                        #print("Line 54: " + str(i) + str(j))
+                        # print("Line 54: " + str(i) + str(j))
                         (source_row, source_col) = (i, j)
                         move.insert(1, (source_row, source_col))
-        #end = time.time()
-        #print("make_move took " + str(end - start) + " seconds")
+        # end = time.time()
+        # print("make_move took " + str(end - start) + " seconds")
         return move
 
     # For AI's turn - used wikipedia pseudo code (https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning)
@@ -98,7 +98,7 @@ class Teeko2Player:
         cutoff_depth = 2
         curr_state = copy.deepcopy(state)
         terminate = self.game_value(curr_state)
-        #print("Max Value " + str(depth))
+        # print("Max Value " + str(depth))
         if terminate == 1:
             return terminate
 
