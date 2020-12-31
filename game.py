@@ -22,7 +22,7 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 game_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
 menu_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
 tutorial_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
-tutorial_surface.fill(BLUE)
+win_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Teeko")
 clock = pygame.time.Clock()
 
@@ -112,17 +112,18 @@ class Board:
 
 
 class Button:
-    def __init__(self, text, x, y, width, height):
+    def __init__(self, text, x, y, width, height, color):
         self.text = text
         self.x = x
         self.y = y
         self.width = width
         self.height = height
         self.font = myfont
+        self.color = color
 
     def draw(self, surface):
         pygame.draw.rect(
-            surface, WHITE, (self.x, self.y, self.width, self.height))
+            surface, self.color, (self.x, self.y, self.width, self.height))
         word = self.font.render(self.text, True, (255, 0, 0))
         surface.blit(word, (self.x, self.y + 10))
 
@@ -327,9 +328,9 @@ def move_phase(ai, userTurn, colors):
         # Draw board at end of each loop
         draw_board()
     if ai.game_value(ai.board) == 1:
-        return "AI wins! Game over."
+        return "AI wins!"
     else:
-        return "You win! Game over."
+        return "You win!"
 
 
 def checkLeftClick(event):
@@ -350,24 +351,45 @@ def getCellFromCoord(coord):
     return board.cells[coord[0]][coord[1]]
 
 
-def win_screen(winner):
-    board.reset()
-
-    # DEBUGGING
-    for row in range(5):
-        rowStr = ""
-        for col in range(5):
-            rowStr += " " + str(board.cells[row][col].color)
-        print(rowStr)
-    print(winner)
-
-
 def draw_board():
     board.draw(game_surface)
     text_bar.draw(game_surface)
     screen.blit(game_surface, (0, 0))
     pygame.display.update()
     clock.tick(60)
+
+
+def win_screen(winner):
+    play_again = Button('PLAY AGAIN', 200, 250, 300, 60, BLACK)
+    exit = Button('EXIT', 200, 350, 300, 60, BLACK)
+    buttons = [play_again, exit]
+
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if pygame.mouse.get_pressed()[0]:
+                    pos = pygame.mouse.get_pos()
+                    clicked_button = check_buttons(buttons, pos)
+                    if clicked_button is not None:
+                        if(clicked_button.text == 'PLAY AGAIN'):
+                        	board.reset()
+                        if(clicked_button.text == 'EXIT'):
+                        	sys.exit()
+        screen.fill(BLACK)
+        mouse_pos = pygame.mouse.get_pos()
+        for button in buttons:
+        	button.update(mouse_pos)
+        	button.draw(win_surface)
+
+       	winner_text = teeko_font.render(winner, True, RED)
+        win_surface.blit(winner_text, (50, 120))
+       
+        screen.blit(win_surface, (0, 0))
+        pygame.display.update()
+        clock.tick(60)
 
 
 def run_tutorial():
@@ -381,13 +403,12 @@ def run_tutorial():
         pygame.display.update()
         clock.tick(60)
 
-# Opening menu
-
 
 def run_menu():
-    start = Button('START', 200, 250, 100, 40)
-    tutorial = Button('TUTORIAL', 200, 300, 100, 40)
-    exit = Button('EXIT', 200, 350, 100, 40)
+	# Opening menu
+    start = Button('START', 200, 250, 100, 40, WHITE)
+    tutorial = Button('TUTORIAL', 200, 300, 100, 40, WHITE)
+    exit = Button('EXIT', 200, 350, 100, 40, WHITE)
     buttons = [start, tutorial, exit]
 
     running = True
