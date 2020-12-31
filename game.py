@@ -237,7 +237,7 @@ def run_game():
 
     # Display winner
     win_screen(winner)
-    del ai
+    
 
 
 def drop_phase(ai, userTurn, colors):
@@ -360,34 +360,36 @@ def draw_board():
 
 
 def win_screen(winner):
-    play_again = Button('PLAY AGAIN', 200, 250, 300, 60, BLACK)
-    exit = Button('EXIT', 200, 350, 300, 60, BLACK)
-    buttons = [play_again, exit]
+    # play_again = Button('PLAY AGAIN', 200, 250, 300, 60, BLACK)
+    # exit = Button('EXIT', 200, 350, 300, 60, BLACK)
+    # buttons = [play_again, exit]
 
     running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if pygame.mouse.get_pressed()[0]:
-                    pos = pygame.mouse.get_pos()
-                    clicked_button = check_buttons(buttons, pos)
-                    if clicked_button is not None:
-                        if(clicked_button.text == 'PLAY AGAIN'):
-                        	board.reset()
-                        if(clicked_button.text == 'EXIT'):
-                        	sys.exit()
-        screen.fill(BLACK)
-        mouse_pos = pygame.mouse.get_pos()
-        for button in buttons:
-        	button.update(mouse_pos)
-        	button.draw(win_surface)
+            # if event.type == pygame.MOUSEBUTTONDOWN:
+            #     if pygame.mouse.get_pressed()[0]:
+            #         pos = pygame.mouse.get_pos()
+            #         clicked_button = check_buttons(buttons, pos)
+            #         if clicked_button is not None:
+            #             if(clicked_button.text == 'PLAY AGAIN'):
+            #             	board.reset()
+            #             if(clicked_button.text == 'EXIT'):
+            #            	sys.exit()
+        
+        # mouse_pos = pygame.mouse.get_pos()
+        # for button in buttons:
+        # 	button.update(mouse_pos)
+        # 	button.draw(win_surface)
 
-       	winner_text = teeko_font.render(winner, True, RED)
-        win_surface.blit(winner_text, (50, 120))
-       
-        screen.blit(win_surface, (0, 0))
+       	# winner_text = teeko_font.render(winner, True, RED)
+        # win_surface.blit(winner_text, (50, 120))
+        
+       	text_bar.update_text(winner)
+       	draw_board()
+        
         pygame.display.update()
         clock.tick(60)
 
