@@ -95,7 +95,7 @@ class Teeko2Player:
 
     # For AI's turn - used wikipedia pseudo code (https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning)
     def Max_Value(self, state, depth, alpha, beta):
-        cutoff_depth = 2
+        cutoff_depth = 3
         curr_state = copy.deepcopy(state)
         terminate = self.game_value(curr_state)
         # print("Max Value " + str(depth))
@@ -117,7 +117,7 @@ class Teeko2Player:
 
     # For Opponent's Turn - used wikipedia pseudo code (https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning)
     def Min_Value(self, state, depth, alpha, beta):
-        cutoff_depth = 2
+        cutoff_depth = 3
         curr_state = copy.deepcopy(state)
         terminate = self.game_value(curr_state)
         #print("Min Value " + str(depth))
