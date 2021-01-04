@@ -1,11 +1,11 @@
-#Prannav Arora
-#CS 540 - HW 6
-#To submit
+# Prannav Arora
+# Ryan Almizyed
+# Teeko Game
 
 import random
 import copy
 import numpy as np
-import time
+
 
 class Teeko2Player:
     """ An object representation for an AI game player for the game Teeko2.
@@ -20,22 +20,22 @@ class Teeko2Player:
         self.my_piece = random.choice(self.pieces)
         self.opp = self.pieces[0] if self.my_piece == self.pieces[1] else self.pieces[1]
 
-    #Gets the AI's first move
+    # Gets the AI's first move
     def AI_first_move(self, state):
         curr_state = copy.deepcopy(state)
         move = []
-        (row, col) = (random.randint(1,3), random.randint(1,3))    
+        (row, col) = (random.randint(1, 3), random.randint(1, 3))
         while curr_state[row][col] != ' ':
-            (row, col) = (random.randint(1,3), random.randint(1,3))
-        move.insert(0, (row,col))
+            (row, col) = (random.randint(1, 3), random.randint(1, 3))
+        move.insert(0, (row, col))
         return move
 
-    #Selects a (row, col) space for the next move. You may assume that whenever 
-    #this function is called, it is this player's turn to move.
+    # Selects a (row, col) space for the next move. You may assume that whenever
+    # this function is called, it is this player's turn to move.
     def make_move(self, state):
-        #start = time.time()
-        
-        #Detect drop phase 
+        # start = time.time()
+
+        # Detect drop phase
         curr_state = copy.deepcopy(state)
         drop_phase = self.drop_phase_currently(curr_state)
 
@@ -48,8 +48,8 @@ class Teeko2Player:
 
         if(count_of_AI_pieces == 0):
             move = self.AI_first_move(curr_state)
-            #end = time.time()
-            #print("make_move took " + str(end - start) + " seconds")
+            # end = time.time()
+            # print("make_move took " + str(end - start) + " seconds")
             return move
 
         succ_states = self.succ(curr_state, self.my_piece)
@@ -58,47 +58,47 @@ class Teeko2Player:
         max_val = -5
         highest_state = None
         for succ in succ_states:
-            #self.print_state(succ)
+            # self.print_state(succ)
             if(self.game_value(succ) == 1):
                 highest_state = succ
                 break
-            #temp = self.Min_Value(succ, 0)
-            temp = self.Min_Value(succ, 0, -5, 5) #Added alpha beta pruning
+            # temp = self.Min_Value(succ, 0)
+            temp = self.Min_Value(succ, 0, -5, 5)  # Added alpha beta pruning
             if(temp > max_val):
                 max_val = temp
                 highest_state = succ
-        #print(self.heuristic_game_value(highest_state, self.my_piece))
-        #self.print_state(highest_state)
+        # print(self.heuristic_game_value(highest_state, self.my_piece))
+        # self.print_state(highest_state)
 
-        #highest_state is going to be the best succ for AI to take
-        #make the move list
+        # highest_state is going to be the best succ for AI to take
+        # make the move list
         if drop_phase:
             for i in range(5):
                 for j in range(5):
                     if curr_state[i][j] == ' ' and highest_state[i][j] == self.my_piece:
-                        (row,col) = (i,j)
+                        (row, col) = (i, j)
             move.insert(0, (row, col))
         else:
             for i in range(5):
                 for j in range(5):
                     if curr_state[i][j] == ' ' and highest_state[i][j] == self.my_piece:
-                        #print("Line 50: " + str(i) + str(j))
-                        (row,col) = (i,j)
+                        # print("Line 50: " + str(i) + str(j))
+                        (row, col) = (i, j)
                         move.insert(0, (row, col))
                     if curr_state[i][j] == self.my_piece and highest_state[i][j] == ' ':
-                        #print("Line 54: " + str(i) + str(j))
-                        (source_row, source_col) = (i,j)
+                        # print("Line 54: " + str(i) + str(j))
+                        (source_row, source_col) = (i, j)
                         move.insert(1, (source_row, source_col))
-        #end = time.time()
-        #print("make_move took " + str(end - start) + " seconds")
+        # end = time.time()
+        # print("make_move took " + str(end - start) + " seconds")
         return move
 
-    #For AI's turn - used wikipedia pseudo code (https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning)
+    # For AI's turn - used wikipedia pseudo code (https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning)
     def Max_Value(self, state, depth, alpha, beta):
-        cutoff_depth = 2
+        cutoff_depth = 3
         curr_state = copy.deepcopy(state)
         terminate = self.game_value(curr_state)
-        #print("Max Value " + str(depth))
+        # print("Max Value " + str(depth))
         if terminate == 1:
             return terminate
 
@@ -108,15 +108,16 @@ class Teeko2Player:
         succ_states = self.succ(curr_state, self.my_piece)
         max_val = -5
         for succ in succ_states:
-            max_val = max(self.Min_Value(succ, depth + 1, alpha, beta), max_val)
+            max_val = max(self.Min_Value(
+                succ, depth + 1, alpha, beta), max_val)
             alpha = max(alpha, max_val)
             if alpha >= beta:
                 break
         return max_val
 
-    #For Opponent's Turn - used wikipedia pseudo code (https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning)
+    # For Opponent's Turn - used wikipedia pseudo code (https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning)
     def Min_Value(self, state, depth, alpha, beta):
-        cutoff_depth = 2
+        cutoff_depth = 3
         curr_state = copy.deepcopy(state)
         terminate = self.game_value(curr_state)
         #print("Min Value " + str(depth))
@@ -129,37 +130,38 @@ class Teeko2Player:
         succ_states = self.succ(curr_state, self.opp)
         min_val = 5
         for succ in succ_states:
-            min_val = min(self.Max_Value(succ, depth + 1, alpha, beta), min_val)
+            min_val = min(self.Max_Value(
+                succ, depth + 1, alpha, beta), min_val)
             beta = min(beta, min_val)
             if beta <= alpha:
                 break
         return min_val
 
-    #If state is a terminal state returns the output of game_value(state).
-    #Otherwise, returns a float between -1 and 1
+    # If state is a terminal state returns the output of game_value(state).
+    # Otherwise, returns a float between -1 and 1
     def heuristic_game_value(self, state, player):
         curr_state = copy.deepcopy(state)
         return_of_game_value = self.game_value(curr_state)
-        if  return_of_game_value != 0:
+        if return_of_game_value != 0:
             return return_of_game_value
 
         # check horizontal
-        max_horiz_score = 0 
+        max_horiz_score = 0
         for row in curr_state:
             horizontal_pieces = row.count(player)
             horizontal_score = horizontal_pieces / 4
-            max_horiz_score = max(max_horiz_score, horizontal_score) 
+            max_horiz_score = max(max_horiz_score, horizontal_score)
 
         # check vertical
         c = np.array(curr_state).T.tolist()
-        max_vertical_score = 0 
+        max_vertical_score = 0
         for row in c:
             vertical_pieces = row.count(player)
             vertical_score = vertical_pieces / 4
             max_vertical_score = max(max_vertical_score, vertical_score)
 
-        #check \ diagonal
-        max_lower_diagonal_score = 0 
+        # check \ diagonal
+        max_lower_diagonal_score = 0
         for i in range(2):
             for j in range(2):
                 diag = []
@@ -169,11 +171,12 @@ class Teeko2Player:
                 diag.append(curr_state[i+3][j+3])
                 lower_diagonal_pieces = diag.count(player)
                 lower_diagonal_score = lower_diagonal_pieces / 4
-                max_lower_diagonal_score = max(max_lower_diagonal_score, lower_diagonal_score)
+                max_lower_diagonal_score = max(
+                    max_lower_diagonal_score, lower_diagonal_score)
 
-        #check / diagonal        
-        max_upper_diagonal_score = 0 
-        for i in range(3,5):
+        #check / diagonal
+        max_upper_diagonal_score = 0
+        for i in range(3, 5):
             for j in range(2):
                 diag = []
                 diag.append(curr_state[i][j])
@@ -182,12 +185,13 @@ class Teeko2Player:
                 diag.append(curr_state[i-3][j+3])
                 upper_diagonal_pieces = diag.count(player)
                 upper_diagonal_score = upper_diagonal_pieces / 4
-                max_upper_diagonal_score = max(max_upper_diagonal_score, upper_diagonal_score)
+                max_upper_diagonal_score = max(
+                    max_upper_diagonal_score, upper_diagonal_score)
 
-        #check diamond
+        # check diamond
         max_diamond_score = 0
-        for i in range(1,4):
-            for j in range(1,4):
+        for i in range(1, 4):
+            for j in range(1, 4):
                 diamond = []
                 diamond.append(curr_state[i][j - 1])
                 diamond.append(curr_state[i][j + 1])
@@ -197,7 +201,8 @@ class Teeko2Player:
                 diamond_score = diamond_pieces / 4
                 max_diamond_score = max(max_diamond_score, diamond_score)
 
-        max_score = max(max_horiz_score, max_vertical_score, max_lower_diagonal_score, max_upper_diagonal_score, max_diamond_score)
+        max_score = max(max_horiz_score, max_vertical_score,
+                        max_lower_diagonal_score, max_upper_diagonal_score, max_diamond_score)
 
         # print(max_horiz_score)
         # print(max_vertical_score)
@@ -211,20 +216,20 @@ class Teeko2Player:
 
         return max_score
 
-    #Given a current game board, this function returns all successor game boards - DONE
+    # Given a current game board, this function returns all successor game boards - DONE
     def succ(self, state, player):
         drop_phase = True
         coord = []
         for i in range(5):
             for j in range(5):
                 if state[i][j] == player:
-                   coord.append((i,j))
+                    coord.append((i, j))
 
         if len(coord) >= 4:
-            drop_phase= False
+            drop_phase = False
 
-        new_coords = [] 
-        
+        new_coords = []
+
         if(drop_phase):
             for i in range(5):
                 for j in range(5):
@@ -233,26 +238,26 @@ class Teeko2Player:
         else:
             #coord = [(1,3), (2,2), (4,0), (2,3)]
             for r, c in coord:
-                if(c + 1 <= 4): #Move right
-                    new_coords.append([(r, c + 1), (r,c)])
-                if(c - 1 >= 0): #Move left
-                    new_coords.append([(r, c - 1), (r,c)])
-                if(r - 1 >= 0): #Move Up
-                    new_coords.append([(r - 1, c), (r,c)])
+                if(c + 1 <= 4):  # Move right
+                    new_coords.append([(r, c + 1), (r, c)])
+                if(c - 1 >= 0):  # Move left
+                    new_coords.append([(r, c - 1), (r, c)])
+                if(r - 1 >= 0):  # Move Up
+                    new_coords.append([(r - 1, c), (r, c)])
 
-                    if(c + 1 <= 4): #Move Up and right
-                        new_coords.append([(r - 1, c + 1), (r,c)])
-                    if(c - 1 >= 0): #Move Up and left
-                        new_coords.append([(r - 1, c - 1), (r,c)]) 
-                if(r + 1 <= 4): #Move Down
-                    new_coords.append([(r + 1, c), (r,c)])
+                    if(c + 1 <= 4):  # Move Up and right
+                        new_coords.append([(r - 1, c + 1), (r, c)])
+                    if(c - 1 >= 0):  # Move Up and left
+                        new_coords.append([(r - 1, c - 1), (r, c)])
+                if(r + 1 <= 4):  # Move Down
+                    new_coords.append([(r + 1, c), (r, c)])
 
-                    if(c + 1 <= 4): #Move Down and right
-                        new_coords.append([(r + 1, c + 1), (r,c)])
-                    if(c - 1 >= 0): #Move Down and left
-                        new_coords.append([(r + 1, c - 1), (r,c)])
+                    if(c + 1 <= 4):  # Move Down and right
+                        new_coords.append([(r + 1, c + 1), (r, c)])
+                    if(c - 1 >= 0):  # Move Down and left
+                        new_coords.append([(r + 1, c - 1), (r, c)])
 
-        #From new coords, create succ states and add to list
+        # From new coords, create succ states and add to list
         all_succ_states = []
         for new_coord in new_coords:
             copy_of_state = copy.deepcopy(state)
@@ -267,8 +272,8 @@ class Teeko2Player:
 
         return all_succ_states
 
+    # Helper function is used to determine whether the state passed in is still in drop phase.
 
-    #Helper function is used to determine whether the state passed in is still in drop phase.
     def drop_phase_currently(self, state):
         count_of_pieces = 0
         for row in state:
@@ -276,7 +281,7 @@ class Teeko2Player:
                 if spot != ' ':
                     count_of_pieces += 1
 
-        #If more than (25 - 8) open spaces ' ', we are still in drop phase
+        # If more than (25 - 8) open spaces ' ', we are still in drop phase
         if count_of_pieces < 8:
             return True
         else:
@@ -305,7 +310,8 @@ class Teeko2Player:
             if abs(source_row - move[0][0]) > 1 or abs(source_col - move[0][1]) > 1:
                 self.print_board()
                 print(move)
-                raise Exception('Illegal move: Can only move to an adjacent space')
+                raise Exception(
+                    'Illegal move: Can only move to an adjacent space')
         if self.board[move[0][0]][move[0][1]] != ' ':
             raise Exception("Illegal move detected")
         # make move
@@ -356,41 +362,43 @@ class Teeko2Player:
         for row in state:
             for i in range(2):
                 if row[i] != ' ' and row[i] == row[i+1] == row[i+2] == row[i+3]:
-                    return 1 if row[i]==self.my_piece else -1
+                    return 1 if row[i] == self.my_piece else -1
 
         # check vertical wins
         for col in range(5):
             for i in range(2):
                 if state[i][col] != ' ' and state[i][col] == state[i+1][col] == state[i+2][col] == state[i+3][col]:
-                    return 1 if state[i][col]==self.my_piece else -1
+                    return 1 if state[i][col] == self.my_piece else -1
 
         # TODO: check \ diagonal wins - DONE
         for i in range(2):
             for j in range(2):
                 if state[i][j] != ' ' and state[i][j] == state[i+1][j+1] == state[i+2][j+2] == state[i+3][j+3]:
-                            return 1 if state[i][j]==self.my_piece else -1
+                    return 1 if state[i][j] == self.my_piece else -1
 
         # TODO: check / diagonal wins - DONE
-        for i in range(3,5):
+        for i in range(3, 5):
             for j in range(2):
                 if state[i][j] != ' ' and state[i][j] == state[i-1][j+1] == state[i-2][j+2] == state[i-3][j+3]:
-                            return 1 if state[i][j]==self.my_piece else -1
-
+                    return 1 if state[i][j] == self.my_piece else -1
 
         # TODO: check diamond wins - DONE
-        for i in range(1,4):
-            for j in range(1,4):
-                is_neighbourhood_full = (state[i][j - 1] != ' ') and (state[i][j + 1] != ' ') and (state [i - 1][j] != ' ') and (state[i + 1][j] != ' ')
-                if state[i][j] == ' ' and is_neighbourhood_full and (state[i][j - 1] == state[i][j + 1] == state [i - 1][j] == state[i + 1][j]):
+        for i in range(1, 4):
+            for j in range(1, 4):
+                is_neighbourhood_full = (state[i][j - 1] != ' ') and (
+                    state[i][j + 1] != ' ') and (state[i - 1][j] != ' ') and (state[i + 1][j] != ' ')
+                if state[i][j] == ' ' and is_neighbourhood_full and (state[i][j - 1] == state[i][j + 1] == state[i - 1][j] == state[i + 1][j]):
                     return 1 if state[i-1][j] == self.my_piece else -1
 
-        return 0 # no winner yet
+        return 0  # no winner yet
 
 ############################################################################
 #
 # THE FOLLOWING CODE IS FOR SAMPLE GAMEPLAY ONLY
 #
 ############################################################################
+
+
 def main():
     print('Hello, this is Samaritan')
     ai = Teeko2Player()
@@ -405,7 +413,8 @@ def main():
             ai.print_board()
             move = ai.make_move(ai.board)
             ai.place_piece(move, ai.my_piece)
-            print(ai.my_piece+" moved at "+chr(move[0][1]+ord("A"))+str(move[0][0]))
+            print(ai.my_piece+" moved at " +
+                  chr(move[0][1]+ord("A"))+str(move[0][0]))
         else:
             move_made = False
             ai.print_board()
@@ -415,7 +424,8 @@ def main():
                 while player_move[0] not in "ABCDE" or player_move[1] not in "01234":
                     player_move = input("Move (e.g. B3): ")
                 try:
-                    ai.opponent_move([(int(player_move[1]), ord(player_move[0])-ord("A"))])
+                    ai.opponent_move(
+                        [(int(player_move[1]), ord(player_move[0])-ord("A"))])
                     move_made = True
                 except Exception as e:
                     print(e)
@@ -433,7 +443,8 @@ def main():
             ai.print_board()
             move = ai.make_move(ai.board)
             ai.place_piece(move, ai.my_piece)
-            print(ai.my_piece+" moved from "+chr(move[1][1]+ord("A"))+str(move[1][0]))
+            print(ai.my_piece+" moved from " +
+                  chr(move[1][1]+ord("A"))+str(move[1][0]))
             print("  to "+chr(move[0][1]+ord("A"))+str(move[0][0]))
         else:
             move_made = False
@@ -448,7 +459,7 @@ def main():
                     move_to = input("Move to (e.g. B3): ")
                 try:
                     ai.opponent_move([(int(move_to[1]), ord(move_to[0])-ord("A")),
-                                    (int(move_from[1]), ord(move_from[0])-ord("A"))])
+                                      (int(move_from[1]), ord(move_from[0])-ord("A"))])
                     move_made = True
                 except Exception as e:
                     print(e)
