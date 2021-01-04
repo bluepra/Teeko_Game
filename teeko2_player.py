@@ -10,15 +10,17 @@ import numpy as np
 class Teeko2Player:
     """ An object representation for an AI game player for the game Teeko2.
     """
-    board = [[' ' for j in range(5)] for i in range(5)]
-    pieces = ['b', 'r']
-
+    
     def __init__(self):
         """ Initializes a Teeko2Player object by randomly selecting red or black as its
         piece color.
         """
+        self.board = [[' ' for j in range(5)] for i in range(5)]
+        self.pieces = ['b', 'r']
         self.my_piece = random.choice(self.pieces)
         self.opp = self.pieces[0] if self.my_piece == self.pieces[1] else self.pieces[1]
+        
+        
 
     # Gets the AI's first move
     def AI_first_move(self, state):
