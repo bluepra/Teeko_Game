@@ -45,6 +45,8 @@ pygame.display.set_icon(hexagon)
 # Sounds
 piece_down = mixer.Sound('piece_down.mp3')
 music = mixer.music.load('music.mp3')
+music_volume = 0.5
+pygame.mixer.music.set_volume(music_volume)
 mixer.music.play(-1)
 
 
@@ -414,7 +416,7 @@ def run_tutorial():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-        print('running tutorial')
+        # print('running tutorial')
         screen.blit(tutorial_surface, (0, 0))
         pygame.display.update()
         clock.tick(60)
