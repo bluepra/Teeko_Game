@@ -1,5 +1,6 @@
 # Teeko_Game
-1. Install pygame - Go to your terminal and type pip install pygame
+1. Install pygame - Go to your terminal and type: pip install pygame
+(You need Python 3+ as well to get the game to run)
 2. Open teeko.py within the code folder
 3. Run teeko.py
 
