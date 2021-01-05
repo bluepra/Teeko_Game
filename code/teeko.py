@@ -14,7 +14,7 @@ class Game:
         self.menu_surface = pygame.Surface((Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT))
         self.tutorial_surface = pygame.Surface((Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT))
         #self.win_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
-        self.options_surface = pygame.Surface((Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT))
+        self.settings_surface = pygame.Surface((Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT))
 
         pygame.display.set_caption("Teeko")
         pygame.display.set_icon(hexagon)
@@ -25,26 +25,27 @@ class Game:
         self.text_bar = TextBar('', Board.PADDING,
                    Game.SCREEN_WIDTH - Board.PADDING, Game.SCREEN_WIDTH, 45, BLACK)
 
-        #0 -> menu, 1 -> game, 2 -> tutorial, 3 -> options, -1 -> exit
-        self.state = 0
+        #0 -> menu, 1 -> game, 2 -> tutorial, 3 -> settings, -1 -> exit
+        self.states = {'menu': 0, 'game': 1, 'tutorial': 2, 'settings': 3, 'exit': -1}
+        self.state = self.states['menu']
 
     def run(self):
         while(self.state >= 0):
             # Menu
-            if self.state == 0:
+            if self.state == self.states['menu']:
                 self.run_menu()
 
             # Game
-            elif self.state == 1:
+            elif self.state == self.states['game']:
                 self.run_game()
 
             # Tutorial
-            elif self.state == 2:
+            elif self.state == self.states['tutorial']:
                 self.run_tutorial()
 
-            # Tutorial
-            elif self.state == 3:
-                self.run_options()
+            # Settings
+            elif self.state == self.states['settings']:
+                self.run_settings()
 
         self.quitHandler()
 
@@ -232,13 +233,50 @@ class Game:
         return event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]
 
     def run_tutorial(self):
-        line1 = TextBar()
-        while self.state == 2:
+        back_to_menu = Button('BACK TO MENU', 10, Game.SCREEN_HEIGHT - 50, 300, 45, BLACK)
+        buttons = [back_to_menu]
+        #line1 = TextBar()
+        while self.state == self.states['tutorial']:
+            mouse_pos = pygame.mouse.get_pos()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.state = -1
-            
+                    self.state = self.states['exit']
+                if self.checkLeftClick(event):
+                    for button in buttons:
+                        #Check if a button was clicked
+                        if button.check_if_clicked(mouse_pos):
+                            if(button.text == 'BACK TO MENU'):
+                                self.state = self.states['menu']
+                                
+            for button in buttons:
+                back_to_menu.update(mouse_pos)
+                back_to_menu.draw(self.tutorial_surface)
+
             self.screen.blit(self.tutorial_surface, (0, 0))
+            pygame.display.update()
+            self.clock.tick(60)
+
+    def run_settings(self):
+        back_to_menu = Button('BACK TO MENU', 10, Game.SCREEN_HEIGHT - 50, 300, 45, BLACK)
+        buttons = [back_to_menu]
+        #line1 = TextBar()
+        while self.state == self.states['settings']:
+            mouse_pos = pygame.mouse.get_pos()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.state = self.states['exit']
+                if self.checkLeftClick(event):
+                    for button in buttons:
+                        #Check if a button was clicked
+                        if button.check_if_clicked(mouse_pos):
+                            if(button.text == 'BACK TO MENU'):
+                                self.state = self.states['menu']
+                                
+            for button in buttons:
+                back_to_menu.update(mouse_pos)
+                back_to_menu.draw(self.settings_surface)
+
+            self.screen.blit(self.settings_surface, (0, 0))
             pygame.display.update()
             self.clock.tick(60)
 
@@ -246,27 +284,27 @@ class Game:
         # Opening menu
         start = Button('START', 200, 230, 100, 40, WHITE)
         tutorial = Button('TUTORIAL', 200, 280, 100, 40, WHITE)
-        options = Button('OPTIONS', 200, 330, 100, 40, WHITE)
+        settings = Button('SETTINGS', 200, 330, 100, 40, WHITE)
         exit = Button('EXIT', 200, 380, 100, 40, WHITE)
-        buttons = [start, tutorial, options, exit]
+        buttons = [start, tutorial, settings, exit]
 
         while self.state == 0:
             mouse_pos = pygame.mouse.get_pos()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.state = -1
+                    self.state = self.states['exit']
                 if self.checkLeftClick(event):
                     for button in buttons:
                         #Check if a button was clicked
                         if button.check_if_clicked(mouse_pos):
                             if(button.text == 'START'):
-                                self.state = 1
+                                self.state = self.states['game']
                             if(button.text == 'TUTORIAL'):
-                                self.state = 2
-                            if(button.text == 'OPTIONS'):
-                                self.state = 3
+                                self.state = self.states['tutorial']
+                            if(button.text == 'SETTINGS'):
+                                self.state = self.states['settings']
                             if(button.text == 'EXIT'):
-                                self.state = -1
+                                self.state = self.states['exit']
 
             # Draw text and hexagon on screen
             self.screen.fill(BLACK)
