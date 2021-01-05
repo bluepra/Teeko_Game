@@ -240,10 +240,9 @@ class Game:
         # RULES
         rules = TextBar('Rules:', 10, 10, Game.SCREEN_WIDTH, line_height, BLACK, RED)
         line1 = TextBar('- You vs AI Bot', 10, line_height, Game.SCREEN_WIDTH, line_height, BLACK, WHITE)
-        line2 = TextBar('- 4 pieces each', 10, 2*line_height, Game.SCREEN_WIDTH, line_height, BLACK, WHITE)
-        line3 = TextBar('- Place one piece at a time', 10, 3*line_height, Game.SCREEN_WIDTH, line_height, BLACK, WHITE)
-        line4 = TextBar('- After 4 pieces down,', 10, 4*line_height, Game.SCREEN_WIDTH, line_height, BLACK, WHITE)
-        line5 = TextBar('  move one piece to adjacent, empty spot', 10, 5*line_height, Game.SCREEN_WIDTH, line_height, BLACK, WHITE)
+        line3 = TextBar('- Place one piece at a time', 10, 2*line_height, Game.SCREEN_WIDTH, line_height, BLACK, WHITE)
+        line4 = TextBar('- After 4 pieces each down,', 10, 3*line_height, Game.SCREEN_WIDTH, line_height, BLACK, WHITE)
+        line5 = TextBar('  move one piece to adjacent, empty spot', 10, 4*line_height, Game.SCREEN_WIDTH, line_height, BLACK, WHITE)
         
         # Objective
         objective = TextBar('Objective:', 10, 6*line_height, Game.SCREEN_WIDTH, line_height, BLACK, RED)
@@ -251,7 +250,7 @@ class Game:
         line7 = TextBar('horizontal, vertical, diagonal', 10, 8*line_height, Game.SCREEN_WIDTH, line_height, BLACK, WHITE)
         line8 = TextBar('or diamond shape wins!', 10, 9*line_height, Game.SCREEN_WIDTH, line_height, BLACK, WHITE)
         
-        lines = [rules, line1, line2, line3, line4, line5, objective, line6, line7, line8]
+        lines = [rules, line1, line3, line4, line5, objective, line6, line7, line8]
         
         while self.state == self.states['tutorial']:
             mouse_pos = pygame.mouse.get_pos()
@@ -279,6 +278,7 @@ class Game:
     def run_settings(self):
         back_to_menu = Button('BACK TO MENU', 10, Game.SCREEN_HEIGHT - 50, 300, 45, BLACK)
         buttons = [back_to_menu]
+
         #line1 = TextBar()
         while self.state == self.states['settings']:
             mouse_pos = pygame.mouse.get_pos()
