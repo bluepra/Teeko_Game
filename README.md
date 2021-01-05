@@ -1,4 +1,4 @@
-# Teeko_Game
+# Teeko Game
 How to run:
 1. You need Python 3+ as well to get the game to run 
 2. Install pygame - Go to your terminal and type: pip install pygame
@@ -9,4 +9,7 @@ The game starts with either you or the AI playing the first move. Both players h
 
 Objective:
 First player to get their 4 pieces in a horizontal, vertical, diagonal, or diamond configuration win!
+
+Credits:
+Game made by - Prannav Arora, Ryan Almizyed
 
