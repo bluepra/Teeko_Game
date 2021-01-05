@@ -3,7 +3,7 @@ from pygame import mixer
 from classes import *
 
 class Game:
-    # Constants
+    # Constants - dont change
     SCREEN_WIDTH = 530
     SCREEN_HEIGHT = 580
 
