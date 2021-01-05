@@ -20,10 +20,10 @@ class Game:
         pygame.display.set_icon(hexagon)
         self.clock = pygame.time.Clock()
 
-        # Create the Board
+        # Create the Board and TextBar for game
         self.board = Board()
         self.text_bar = TextBar('', Board.PADDING,
-                   Game.SCREEN_WIDTH - Board.PADDING, Game.SCREEN_WIDTH, 45, BLACK)
+                   Game.SCREEN_WIDTH, Game.SCREEN_WIDTH, 45, BLACK, WHITE)
 
         #0 -> menu, 1 -> game, 2 -> tutorial, 3 -> settings, -1 -> exit
         self.states = {'menu': 0, 'game': 1, 'tutorial': 2, 'settings': 3, 'exit': -1}
@@ -235,7 +235,24 @@ class Game:
     def run_tutorial(self):
         back_to_menu = Button('BACK TO MENU', 10, Game.SCREEN_HEIGHT - 50, 300, 45, BLACK)
         buttons = [back_to_menu]
-        #line1 = TextBar()
+
+        line_height = 50
+        # RULES
+        rules = TextBar('Rules:', 10, 10, Game.SCREEN_WIDTH, line_height, BLACK, RED)
+        line1 = TextBar('- You vs AI Bot', 10, line_height, Game.SCREEN_WIDTH, line_height, BLACK, WHITE)
+        line2 = TextBar('- 4 pieces each', 10, 2*line_height, Game.SCREEN_WIDTH, line_height, BLACK, WHITE)
+        line3 = TextBar('- Place one piece at a time', 10, 3*line_height, Game.SCREEN_WIDTH, line_height, BLACK, WHITE)
+        line4 = TextBar('- After 4 pieces down,', 10, 4*line_height, Game.SCREEN_WIDTH, line_height, BLACK, WHITE)
+        line5 = TextBar('  move one piece to adjacent, empty spot', 10, 5*line_height, Game.SCREEN_WIDTH, line_height, BLACK, WHITE)
+        
+        # Objective
+        objective = TextBar('Objective:', 10, 6*line_height, Game.SCREEN_WIDTH, line_height, BLACK, RED)
+        line6 = TextBar('First to get 4 pieces in a', 10, 7*line_height, Game.SCREEN_WIDTH, line_height, BLACK, WHITE)
+        line7 = TextBar('horizontal, vertical, diagonal', 10, 8*line_height, Game.SCREEN_WIDTH, line_height, BLACK, WHITE)
+        line8 = TextBar('or diamond shape wins!', 10, 9*line_height, Game.SCREEN_WIDTH, line_height, BLACK, WHITE)
+        
+        lines = [rules, line1, line2, line3, line4, line5, objective, line6, line7, line8]
+        
         while self.state == self.states['tutorial']:
             mouse_pos = pygame.mouse.get_pos()
             for event in pygame.event.get():
@@ -251,6 +268,9 @@ class Game:
             for button in buttons:
                 back_to_menu.update(mouse_pos)
                 back_to_menu.draw(self.tutorial_surface)
+
+            for line in lines:
+                line.draw(self.tutorial_surface)
 
             self.screen.blit(self.tutorial_surface, (0, 0))
             pygame.display.update()

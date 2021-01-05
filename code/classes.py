@@ -78,19 +78,20 @@ class Board:
         self.num_pieces = 0
 
 class TextBar:
-    def __init__(self, text, x, y, width, height, color):
+    def __init__(self, text, x, y, width, height, box_color, text_color):
         self.text = text
         self.x = x
         self.y = y
         self.width = width
         self.height = height
-        self.color = color
+        self.box_color = box_color
+        self.text_color = text_color
 
     def draw(self, surface):
         pygame.draw.rect(
-            surface, self.color, (self.x, self.y, self.width, self.height))
-        word = text_bar_font.render(self.text, True, WHITE)
-        surface.blit(word, (self.x, self.y + 10))
+            surface, self.box_color, (self.x, self.y, self.width, self.height))
+        word = text_bar_font.render(self.text, True, self.text_color)
+        surface.blit(word, (self.x, self.y))
 
     def update_text(self, new_text):
         self.text = new_text
