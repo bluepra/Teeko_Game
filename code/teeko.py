@@ -14,6 +14,7 @@ class Game:
         self.menu_surface = pygame.Surface((Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT))
         self.tutorial_surface = pygame.Surface((Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT))
         #self.win_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.options_surface = pygame.Surface((Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT))
 
         pygame.display.set_caption("Teeko")
         pygame.display.set_icon(hexagon)
@@ -21,7 +22,7 @@ class Game:
 
         # Create the Board
         self.board = Board()
-        self.text_bar = TextBar('click on a square', Board.PADDING,
+        self.text_bar = TextBar('', Board.PADDING,
                    Game.SCREEN_WIDTH - Board.PADDING, Game.SCREEN_WIDTH, 45, BLACK)
 
         #0 - menu, 1 - game, 2 - tutorial, -1 - exit
@@ -227,6 +228,7 @@ class Game:
         return event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]
 
     def run_tutorial(self):
+        line1 = TextBar()
         while self.state == 2:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
