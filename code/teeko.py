@@ -22,7 +22,7 @@ class Game:
         # Create the Board
         self.board = Board()
         self.text_bar = TextBar('click on a square', Board.PADDING,
-                   Game.SCREEN_WIDTH - Board.PADDING, Game.SCREEN_WIDTH / 2, 45, BLACK)
+                   Game.SCREEN_WIDTH - Board.PADDING, Game.SCREEN_WIDTH, 45, BLACK)
 
         #0 - menu, 1 - game, 2 - tutorial, -1 - exit
         self.state = 0
@@ -60,8 +60,6 @@ class Game:
         # Display winner
         self.win_screen(winner)
         
-
-
     def drop_phase(self, ai, colors, userTurn):
         userColor = colors['player']
         AIColor = colors['ai']
@@ -74,15 +72,20 @@ class Game:
                 # User's turn
                 if(userTurn):
                     # Wait for user to left-click on a cell
+                    self.text_bar.update_text('Your turn, click a cell')
+                    self.draw_board()
                     if self.checkLeftClick(event):
                         if(self.userDropHandler(event, ai, userColor)):
                             userTurn = False
                 # AI's turn
                 else:
+                    self.text_bar.update_text('AI\'s turn')
+                    self.draw_board()
                     ai_move = ai.make_move(ai.board)
                     ai.place_piece(ai_move, ai.my_piece)
                     self.board.place_piece(ai_move[0], AIColor)
                     userTurn = True
+
             # Draw board at end of each loop
             self.draw_board()
             self.clock.tick(60)
@@ -111,9 +114,12 @@ class Game:
             for event in pygame.event.get():
                 # Quit event
                 if event.type is pygame.QUIT:
-                    quitHandler()
+                    self.quitHandler()
                 # User's turn
                 if(userTurn):
+                    if user_source is None:
+                        self.text_bar.update_text('Your turn, choose one piece to move')
+                        self.draw_board()
                     # Check if user clicked on a rectangle
                     if self.checkLeftClick(event):
                         # Get the cell that has been clicked
@@ -121,6 +127,8 @@ class Game:
                         # If the cell has a piece, select source cell
                         if(cell.has_piece() and cell.color is userColor):
                             user_source = cell
+                            self.text_bar.update_text('Click adjacent empty cell')
+                            self.draw_board()
                         # If the cell is empty, select a destination cell
                         if(not cell.has_piece() and user_source is not None):
                             user_desti = cell
@@ -128,14 +136,21 @@ class Game:
                     if user_source is not None and user_desti is not None:
                         # try to move the piece
                         if self.move_piece(user_source, user_desti):
+                            move_str = 'Moved piece from' + str(user_source.cell_coord) + ' to ' + str(user_desti.cell_coord)
+                            self.text_bar.update_text(move_str)
+                            self.draw_board()
                             ai.opponent_move([user_desti.cell_coord, user_source.cell_coord])
                             userTurn = False
                         # failed to move the piece, reset selection
                         else:
+                            self.text_bar.update_text('Try again')
+                            self.draw_board()
                             user_source = None
                             user_desti = None
                 # AI's turn
                 else:
+                    self.text_bar.update_text('AI\'s turn')
+                    self.draw_board()
                     ai_move = ai.make_move(ai.board)
                     ai.place_piece(ai_move, ai.my_piece)
                     AI_source = self.get_cell_from_coord(ai_move[1])
