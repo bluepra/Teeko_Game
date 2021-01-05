@@ -25,7 +25,7 @@ class Game:
         self.text_bar = TextBar('', Board.PADDING,
                    Game.SCREEN_WIDTH - Board.PADDING, Game.SCREEN_WIDTH, 45, BLACK)
 
-        #0 - menu, 1 - game, 2 - tutorial, -1 - exit
+        #0 -> menu, 1 -> game, 2 -> tutorial, 3 -> options, -1 -> exit
         self.state = 0
 
     def run(self):
@@ -41,6 +41,10 @@ class Game:
             # Tutorial
             elif self.state == 2:
                 self.run_tutorial()
+
+            # Tutorial
+            elif self.state == 3:
+                self.run_options()
 
         self.quitHandler()
 
@@ -240,10 +244,11 @@ class Game:
 
     def run_menu(self):
         # Opening menu
-        start = Button('START', 200, 250, 100, 40, WHITE)
-        tutorial = Button('TUTORIAL', 200, 300, 100, 40, WHITE)
-        exit = Button('EXIT', 200, 350, 100, 40, WHITE)
-        buttons = [start, tutorial, exit]
+        start = Button('START', 200, 230, 100, 40, WHITE)
+        tutorial = Button('TUTORIAL', 200, 280, 100, 40, WHITE)
+        options = Button('OPTIONS', 200, 330, 100, 40, WHITE)
+        exit = Button('EXIT', 200, 380, 100, 40, WHITE)
+        buttons = [start, tutorial, options, exit]
 
         while self.state == 0:
             mouse_pos = pygame.mouse.get_pos()
@@ -258,6 +263,8 @@ class Game:
                                 self.state = 1
                             if(button.text == 'TUTORIAL'):
                                 self.state = 2
+                            if(button.text == 'OPTIONS'):
+                                self.state = 3
                             if(button.text == 'EXIT'):
                                 self.state = -1
 
