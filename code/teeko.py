@@ -25,6 +25,12 @@ class Game:
         self.text_bar = TextBar('', Board.PADDING,
                    Game.SCREEN_WIDTH, Game.SCREEN_WIDTH, 45, BLACK, WHITE)
 
+        # Game music
+        self.music_on = True
+        self.sounds_on = True
+        pygame.mixer.music.set_volume(.5)
+        pygame.mixer.music.play(-1)
+
         #0 -> menu, 1 -> game, 2 -> tutorial, 3 -> settings, -1 -> exit
         self.states = {'menu': 0, 'game': 1, 'tutorial': 2, 'settings': 3, 'exit': -1}
         self.state = self.states['menu']
@@ -263,7 +269,7 @@ class Game:
                         if button.check_if_clicked(mouse_pos):
                             if(button.text == 'BACK TO MENU'):
                                 self.state = self.states['menu']
-                                
+            self.screen.fill(BLACK)                 
             for button in buttons:
                 back_to_menu.update(mouse_pos)
                 back_to_menu.draw(self.tutorial_surface)
@@ -276,10 +282,10 @@ class Game:
             self.clock.tick(60)
 
     def run_settings(self):
-        back_to_menu = Button('BACK TO MENU', 10, Game.SCREEN_HEIGHT - 50, 300, 45, BLACK)
-        buttons = [back_to_menu]
+        toggle_music = Button('TOGGLE MUSIC', 160, 200, 300, 50, BLACK)
+        back_to_menu = Button('BACK TO MENU', 160, 250, 300, 50, BLACK)
+        buttons = [toggle_music, back_to_menu]
 
-        #line1 = TextBar()
         while self.state == self.states['settings']:
             mouse_pos = pygame.mouse.get_pos()
             for event in pygame.event.get():
@@ -291,10 +297,17 @@ class Game:
                         if button.check_if_clicked(mouse_pos):
                             if(button.text == 'BACK TO MENU'):
                                 self.state = self.states['menu']
-                                
+                            if(button.text == 'TOGGLE MUSIC'):
+                                self.music_on = not self.music_on
+                                if(not self.music_on):
+                                    pygame.mixer.music.pause()
+                                else:
+                                    pygame.mixer.music.unpause()   
+            
+            self.screen.fill(BLACK)
             for button in buttons:
-                back_to_menu.update(mouse_pos)
-                back_to_menu.draw(self.settings_surface)
+                button.update(mouse_pos)
+                button.draw(self.settings_surface)
 
             self.screen.blit(self.settings_surface, (0, 0))
             pygame.display.update()
@@ -303,9 +316,9 @@ class Game:
     def run_menu(self):
         # Opening menu
         start = Button('START', 200, 230, 100, 40, WHITE)
-        tutorial = Button('TUTORIAL', 200, 280, 100, 40, WHITE)
-        settings = Button('SETTINGS', 200, 330, 100, 40, WHITE)
-        exit = Button('EXIT', 200, 380, 100, 40, WHITE)
+        tutorial = Button('TUTORIAL', 200, 280, 150, 40, WHITE)
+        settings = Button('SETTINGS', 200, 330, 150, 40, WHITE)
+        exit = Button('EXIT', 200, 380, 80, 40, WHITE)
         buttons = [start, tutorial, settings, exit]
 
         while self.state == 0:

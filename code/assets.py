@@ -1,5 +1,4 @@
 import pygame
-from pygame import mixer
 pygame.init()
 
 # Colors
@@ -25,6 +24,4 @@ hexagon = pygame.image.load('../assets/hexagon.png')
 # Sounds
 piece_down = pygame.mixer.Sound('../assets/piece_down.mp3')
 music = pygame.mixer.music.load('../assets/music.mp3')
-music_volume = 0.5
-pygame.mixer.music.set_volume(music_volume)
-mixer.music.play(-1)
+
