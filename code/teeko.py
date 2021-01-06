@@ -282,8 +282,8 @@ class Game:
             self.clock.tick(60)
 
     def run_settings(self):
-        toggle_music = Button('TOGGLE MUSIC', 160, 200, 300, 50, BLACK)
-        back_to_menu = Button('BACK TO MENU', 160, 250, 300, 50, BLACK)
+        toggle_music = Button('TOGGLE MUSIC', 160, 250, 300, 50, BLACK)
+        back_to_menu = Button('BACK TO MENU', 160, 300, 300, 50, BLACK)
         buttons = [toggle_music, back_to_menu]
 
         while self.state == self.states['settings']:
