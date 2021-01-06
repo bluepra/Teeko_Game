@@ -1,8 +1,8 @@
 # Teeko Game
 How to run:
-1. You need Python 3+ as well to get the game to run 
-2. Install pygame - Go to your terminal and type: pip install pygame
-3. Install numpy - Go to your terminal and type: pip install numpy
+1. You need Python 3+ (no guarantee with python 3.9) as well to get the game to run 
+2. Install pygame - Go to your terminal and type: pip install pygame==2.0.0
+3. Install numpy - Go to your terminal and type: pip install numpy==1.19.3
 4. Open the code folder, run teeko.py
 
 Rules:
