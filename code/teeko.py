@@ -1,5 +1,6 @@
-import pygame
-from pygame import mixer
+import pygame, random, sys
+#from pygame import mixer
+from teeko_bot import TeekoBot
 from classes import *
 
 class Game:
@@ -274,7 +275,9 @@ class Game:
                         if button.check_if_clicked(mouse_pos):
                             if(button.text == 'BACK TO MENU'):
                                 self.state = self.states['menu']
+            
             self.screen.fill(BLACK)                 
+            
             for button in buttons:
                 back_to_menu.update(mouse_pos)
                 back_to_menu.draw(self.tutorial_surface)

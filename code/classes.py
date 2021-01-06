@@ -1,8 +1,6 @@
 import pygame
-import random
-import sys
 from assets import *
-from teeko_bot import TeekoBot
+
 
 class Cell:
     CELL_LENGTH = 100
