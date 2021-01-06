@@ -23,7 +23,7 @@ class Game:
         # Create the Board and TextBar for game
         self.board = Board()
         self.text_bar = TextBar('', Board.PADDING,
-                   Game.SCREEN_WIDTH, Game.SCREEN_WIDTH, 45, BLACK, WHITE)
+                   Game.SCREEN_WIDTH, Game.SCREEN_WIDTH - 75, 45, BLACK, WHITE)
 
         # Game music
         self.music_on = True
@@ -56,7 +56,9 @@ class Game:
             elif self.state == self.states['settings']:
                 self.run_settings()
 
-        self.quitHandler()
+            # Exit
+            else:
+                self.quitHandler()
 
     def run_game(self):
         # Create the AI object and colors dictionary
@@ -242,7 +244,7 @@ class Game:
         return event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]
 
     def run_tutorial(self):
-        back_to_menu = Button('BACK TO MENU', 10, Game.SCREEN_HEIGHT - 50, 300, 45, BLACK)
+        back_to_menu = Button('BACK TO MENU', 10, Game.SCREEN_HEIGHT - 50, 235, 45, BLACK)
         buttons = [back_to_menu]
 
         line_height = 50
