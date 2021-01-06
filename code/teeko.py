@@ -35,6 +35,9 @@ class Game:
         self.states = {'menu': 0, 'game': 1, 'tutorial': 2, 'settings': 3, 'exit': -1}
         self.state = self.states['menu']
 
+        # Difficulty of AI bot -> 1 is easy, 2 is medium, 3 is hard
+        self.level = 1
+
     def run(self):
         while(self.state >= 0):
             # Menu
@@ -57,7 +60,7 @@ class Game:
 
     def run_game(self):
         # Create the AI object and colors dictionary
-        ai = TeekoBot(random.choice(['b', 'r']), 3)
+        ai = TeekoBot(random.choice(['b', 'r']), self.level)
         colors = self.generateColors(ai)
 
         # Randomly choose whether user or Ai goes first
@@ -282,9 +285,18 @@ class Game:
             self.clock.tick(60)
 
     def run_settings(self):
-        toggle_music = Button('TOGGLE MUSIC', 160, 250, 300, 50, BLACK)
-        back_to_menu = Button('BACK TO MENU', 160, 300, 300, 50, BLACK)
-        buttons = [toggle_music, back_to_menu]
+        level_button = Button('TOGGLE LEVEL', 140, 200, 250, 50, BLACK)
+        toggle_music = Button('TOGGLE MUSIC', 140, 250, 250, 50, BLACK)
+        back_to_menu = Button('BACK TO MENU', 140, 300, 300, 50, BLACK)
+        buttons = [level_button, toggle_music, back_to_menu]
+
+        user_level = TextBar(str(self.level), 400, 200, 50, 50, BLACK, WHITE)
+        music_indicator = TextBar('ON', 400, 250, 100, 50, BLACK, WHITE)
+
+        if(not self.music_on):
+            music_indicator.update_text('OFF') 
+        
+        words = [user_level, music_indicator]
 
         while self.state == self.states['settings']:
             mouse_pos = pygame.mouse.get_pos()
@@ -295,16 +307,27 @@ class Game:
                     for button in buttons:
                         #Check if a button was clicked
                         if button.check_if_clicked(mouse_pos):
+                            if(button.text == 'TOGGLE LEVEL'):
+                                self.level = (self.level + 1) % 4
+                                if self.level == 0:
+                                    self.level += 1
+                                user_level.update_text(str(self.level))
                             if(button.text == 'BACK TO MENU'):
                                 self.state = self.states['menu']
                             if(button.text == 'TOGGLE MUSIC'):
                                 self.music_on = not self.music_on
                                 if(not self.music_on):
                                     pygame.mixer.music.pause()
+                                    music_indicator.update_text('OFF') 
                                 else:
-                                    pygame.mixer.music.unpause()   
-            
+                                    pygame.mixer.music.unpause()
+                                    music_indicator.update_text('ON') 
+
             self.screen.fill(BLACK)
+
+            for word in words:
+                word.draw(self.settings_surface)
+
             for button in buttons:
                 button.update(mouse_pos)
                 button.draw(self.settings_surface)

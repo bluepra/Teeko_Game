@@ -91,7 +91,7 @@ class TextBar:
         pygame.draw.rect(
             surface, self.box_color, (self.x, self.y, self.width, self.height))
         word = text_bar_font.render(self.text, True, self.text_color)
-        surface.blit(word, (self.x, self.y))
+        surface.blit(word, (self.x, self.y + 10))
 
     def update_text(self, new_text):
         self.text = new_text
