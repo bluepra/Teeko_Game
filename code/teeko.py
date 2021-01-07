@@ -1,5 +1,4 @@
 import pygame, random, sys
-#from pygame import mixer
 from teeko_bot import TeekoBot
 from classes import *
 
