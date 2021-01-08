@@ -9,29 +9,30 @@ class Cell:
         # print('creating cell')
         self.x = x
         self.y = y
-        self.color = None
+        self.piece_color = None
+        self.color = WHITE
         self.cell_coord = cell_coord
 
     def __str__(self):
         return str(self.cell_coord)
 
     def has_piece(self):
-        return self.color is not None
+        return self.piece_color is not None
 
     def put_piece(self, pieceColor):
         if self.has_piece():
             piece_down.play()
-            self.color = None
+            self.piece_color = None
         else:
             # text_bar.update_text(str(self.cell_coord))
             piece_down.play()
-            self.color = pieceColor
+            self.piece_color = pieceColor
 
     def draw(self, surface):
-        pygame.draw.rect(surface, WHITE, (self.x, self.y,
+        pygame.draw.rect(surface, self.color, (self.x, self.y,
                                           Cell.CELL_LENGTH, Cell.CELL_LENGTH))
         if self.has_piece():
-            surface.blit(self.color, (self.x + 15, self.y + 15))
+            surface.blit(self.piece_color, (self.x + 15, self.y + 15))
 
 class Board:
     PADDING = 5
