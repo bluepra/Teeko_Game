@@ -382,14 +382,23 @@ class Game:
             self.clock.tick(60)
 
     def win_screen(self, winner):
+        menu = Button('MENU', 325, 530, 100, 50, BLACK)
+        play_again = Button('REPLAY', 425, 530, 100, 50, BLACK)
+        buttons = [menu, play_again]
+
         while self.state == 1:
+            mouse_pos = pygame.mouse.get_pos()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.state = -1
             
             self.text_bar.update_text(winner)
             self.draw_board()
-            
+
+            for button in buttons:
+                button.update(mouse_pos)
+                button.draw(self.game_surface)
+  
             pygame.display.update()
             self.clock.tick(60)
 
