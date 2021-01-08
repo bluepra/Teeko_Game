@@ -91,6 +91,9 @@ class TextBar:
         word = text_bar_font.render(self.text, True, self.text_color)
         surface.blit(word, (self.x, self.y + 10))
 
+    def change_width(self, new_width):
+        self.width = new_width
+
     def update_text(self, new_text):
         self.text = new_text
 

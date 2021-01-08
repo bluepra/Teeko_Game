@@ -13,7 +13,7 @@ class Game:
         self.game_surface = pygame.Surface((Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT))
         self.menu_surface = pygame.Surface((Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT))
         self.tutorial_surface = pygame.Surface((Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT))
-        #self.win_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.win_surface = pygame.Surface((Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT))
         self.settings_surface = pygame.Surface((Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT))
 
         pygame.display.set_caption("Teeko")
@@ -31,8 +31,8 @@ class Game:
         pygame.mixer.music.set_volume(.5)
         pygame.mixer.music.play(-1)
 
-        #0 -> menu, 1 -> game, 2 -> tutorial, 3 -> settings, -1 -> exit
-        self.states = {'menu': 0, 'game': 1, 'tutorial': 2, 'settings': 3, 'exit': -1}
+        #0 -> menu, 1 -> game, 2 -> tutorial, 3 -> settings, -1 -> exit, -2 -> game over
+        self.states = {'menu': 0, 'game': 1, 'tutorial': 2, 'settings': 3, 'exit': -1, 'game over': -2}
         self.state = self.states['menu']
 
         # Difficulty of AI bot -> 1 is easy, 2 is medium, 3 is hard
@@ -75,7 +75,8 @@ class Game:
         winner = self.move_phase(ai, colors, userTurn)
 
         # Display winner
-        self.win_screen(winner)
+        self.state = self.states['game over']
+        self.game_over(winner)
         
     def drop_phase(self, ai, colors, userTurn):
         userColor = colors['player']
@@ -228,10 +229,13 @@ class Game:
         # Returns a specific cell given the board coordinates of that cell
         return self.board.cells[coord[0]][coord[1]]
 
-    def draw_board(self):
-        self.board.draw(self.game_surface)
-        self.text_bar.draw(self.game_surface)
-        self.screen.blit(self.game_surface, (0, 0))
+    def draw_board(self, game_over = False):
+        surface = self.game_surface
+        if game_over:
+            surface = self.win_surface
+        self.board.draw(surface)
+        self.text_bar.draw(surface)
+        self.screen.blit(surface, (0, 0))
         pygame.display.update()
         self.clock.tick(60)
 
@@ -259,7 +263,7 @@ class Game:
         objective = TextBar('Objective:', 10, 6*line_height, Game.SCREEN_WIDTH, line_height, BLACK, RED)
         line6 = TextBar('First to get 4 pieces in a', 10, 7*line_height, Game.SCREEN_WIDTH, line_height, BLACK, WHITE)
         line7 = TextBar('horizontal, vertical, diagonal', 10, 8*line_height, Game.SCREEN_WIDTH, line_height, BLACK, WHITE)
-        line8 = TextBar('or diamond shape wins!', 10, 9*line_height, Game.SCREEN_WIDTH, line_height, BLACK, WHITE)
+        line8 = TextBar('or diamond shape (empty center) wins!', 10, 9*line_height, Game.SCREEN_WIDTH, line_height, BLACK, WHITE)
         
         lines = [rules, line1, line3, line4, line5, objective, line6, line7, line8]
         
@@ -355,7 +359,7 @@ class Game:
                     self.state = self.states['exit']
                 if self.checkLeftClick(event):
                     for button in buttons:
-                        #Check if a button was clicked
+                        # Check if a button was clicked
                         if button.check_if_clicked(mouse_pos):
                             if(button.text == 'START'):
                                 self.state = self.states['game']
@@ -381,23 +385,36 @@ class Game:
             pygame.display.update()
             self.clock.tick(60)
 
-    def win_screen(self, winner):
-        menu = Button('MENU', 325, 530, 100, 50, BLACK)
-        play_again = Button('REPLAY', 425, 530, 100, 50, BLACK)
+    def game_over(self, winner):
+        menu = Button('MENU', 300, 530, 100, 50, BLACK)
+        play_again = Button('REPLAY', 400, 530, 150, 50, BLACK)
         buttons = [menu, play_again]
 
-        while self.state == 1:
+        self.text_bar.change_width(200)
+
+        while self.state == self.states['game over']:
             mouse_pos = pygame.mouse.get_pos()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.state = -1
+                if self.checkLeftClick(event):
+                    for button in buttons:
+                        # Check if a button was clicked
+                        if button.check_if_clicked(mouse_pos):
+                            if(button.text == 'MENU'):
+                                self.state = self.states['menu']
+                                running = False
+                            if(button.text == 'REPLAY'):
+                                self.state = self.states['game']
+                            self.board.reset() 
+                            self.text_bar.change_width(Game.SCREEN_WIDTH - 75)  
             
             self.text_bar.update_text(winner)
-            self.draw_board()
+            self.draw_board(game_over = True)
 
             for button in buttons:
                 button.update(mouse_pos)
-                button.draw(self.game_surface)
+                button.draw(self.win_surface)
   
             pygame.display.update()
             self.clock.tick(60)
