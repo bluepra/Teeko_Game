@@ -143,8 +143,11 @@ class Game:
                         # Get the cell that has been clicked
                         cell = self.get_cell_from_coord(self.cell_coord_from_mouse())
                         # If the cell has a piece, select source cell
-                        if(cell.has_piece() and cell.color is userColor):
+                        if(cell.has_piece() and cell.piece_color is userColor):
+                            if user_source is not None and user_source is not cell:
+                                user_source.color = WHITE
                             user_source = cell
+                            user_source.color = GREEN
                             self.text_bar.update_text('Click adjacent empty cell')
                             self.draw_board()
                         # If the cell is empty, select a destination cell
@@ -154,6 +157,7 @@ class Game:
                     if user_source is not None and user_desti is not None:
                         # try to move the piece
                         if self.move_piece(user_source, user_desti):
+                            user_source.color = WHITE
                             move_str = 'Moved piece from' + str(user_source.cell_coord) + ' to ' + str(user_desti.cell_coord)
                             self.text_bar.update_text(move_str)
                             self.draw_board()
@@ -163,6 +167,7 @@ class Game:
                         else:
                             self.text_bar.update_text('Try again')
                             self.draw_board()
+                            user_source.color = WHITE
                             user_source = None
                             user_desti = None
                 # AI's turn
@@ -197,9 +202,9 @@ class Game:
             return False
 
         # Save sourceCell's old color
-        tempColor = sourceCell.color
+        tempColor = sourceCell.piece_color
         # No errors, moving piece
-        sourceCell.put_piece(sourceCell.color)
+        sourceCell.put_piece(sourceCell.piece_color)
         destiCell.put_piece(tempColor)
         # Succesfully moved the piece
         return True
