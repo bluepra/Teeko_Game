@@ -16,7 +16,7 @@ The game starts with either you or the AI playing the first move. Both players h
 First player to get their 4 pieces in a horizontal, vertical, diagonal, or diamond configuration, wins!
 
 ## Credits:
-AI Bot made in CS 540 class. GUI made in winter break as side project.
-AI Bot made by - Prannav Arora
+AI Bot made in CS 540 class. GUI made in winter break as side project.//
+AI Bot made by - Prannav Arora//
 GUI made by - Prannav Arora, Ryan Almizyed
 
