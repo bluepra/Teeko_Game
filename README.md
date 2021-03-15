@@ -6,7 +6,7 @@ How to run:
 4. Open the code folder, run teeko.py
 5. In the settings menu, you can toggle through the AI level (1 is easy, 2 is medium, 3 is hard)
 
-Please look at the gameplay_images folder to see what the game looks like!
+**Please look at the gameplay_images folder to see what the game looks like!**
 
 Rules:
 The game starts with either you or the AI playing the first move. Both players have 4 pieces each (putting down one piece at a time). Once both players each have their 4 pieces down, you are allowed to only move your pieces. You must move your piece to an adjacent and empty cell. 
