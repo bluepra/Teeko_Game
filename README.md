@@ -10,13 +10,13 @@
 
 
 ## Rules:
-The game starts with either you or the AI playing the first move. Both players have 4 pieces each (putting down one piece at a time). Once both players each have their 4 pieces down, you are allowed to only move your pieces (to an adjacent, empty cell). 
+The game starts with either you or the AI playing the first move.\Both players have 4 pieces each (putting down one piece at a time).\Once both players each have their 4 pieces down, you are allowed to only move your pieces (to an adjacent, empty cell). 
 
 ## Objective:
 First player to get their 4 pieces in a horizontal, vertical, diagonal, or diamond configuration, wins!
 
 ## Credits:
-AI Bot made in CS 540 class. GUI made in winter break as side project.//
-AI Bot made by - Prannav Arora//
+AI Bot made in CS 540 class. GUI made in winter break as side project\
+AI Bot made by - Prannav Arora\
 GUI made by - Prannav Arora, Ryan Almizyed
 
